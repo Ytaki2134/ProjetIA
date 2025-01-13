@@ -16,6 +16,12 @@
     <Filter Include="Sample">
       <UniqueIdentifier>{cb0c1b12-51a1-456e-88e6-82b04b889c68}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rugby">
+      <UniqueIdentifier>{a985332c-8b1d-4ffe-879b-298726ac4fd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RefreshFilter">
+      <UniqueIdentifier>{87486edb-66f0-4cce-b6f3-e9a603249f4f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entity.cpp">
@@ -60,6 +66,9 @@
     </ClCompile>
     <ClCompile Include="PVZScene.cpp">
       <Filter>PVZ</Filter>
+    </ClCompile>
+    <ClCompile Include="RugbyScene.cpp">
+      <Filter>Rugby</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,6 +122,9 @@
     </ClInclude>
     <ClInclude Include="Action.h">
       <Filter>Engine\StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="RugbyScene.h">
+      <Filter>Rugby</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
