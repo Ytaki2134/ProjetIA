@@ -11,7 +11,14 @@ class Player : public Entity
 
 	enum State
 	{
-	// a faire plus tard
+		Idle,
+		Attack,
+		Pass,
+		Intercept,
+		Follow,
+		Retrieve,
+
+		Count
 	};
 
 	int mSpeed;
