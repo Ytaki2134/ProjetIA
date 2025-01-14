@@ -16,7 +16,7 @@ int main()
 
 	pInstance->CreateWindow(1280, 720, "PVZ", 60, sf::Color::Black);
 	
-	pInstance->LaunchScene<PVZScene>();
+	pInstance->LaunchScene<RugbyScene>();
 
 	return 0;
 }

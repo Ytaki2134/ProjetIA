@@ -1,6 +1,6 @@
 #include "RugbyScene.h"
 #include "Player.h"
-
+#include "Debug.h"
 
 #define PLAYER_COUNT 5
 int RugbyScene::GetClickedArea(int x, int y) const
@@ -143,12 +143,14 @@ void RugbyScene::OnInitialize()
 		}
 
 	}
-	int xMin = 0;
-	int yMin = 0;
-	int xMax = width;
-	int yMax =height/2;
+	int xMin = 1;
+	int yMin =1;
+	int xMax = width-1;
+	int yMax =height/2-1;
 	for (int i = 0; i < 3; i++) {
-		mAreas[i] = { xMin, yMin+height/4, xMax, yMax + height / 4 };
+		mAreas[i] = { xMin, yMin, xMax, yMax  };
+		yMin += height / 4;
+		yMax += height / 4;
 	}
 	
 
@@ -160,6 +162,12 @@ void RugbyScene::OnEvent(const sf::Event& event)
 
 void RugbyScene::OnUpdate()
 {
+	for (int i = 0; i < 3; i++)
+	{
+		const Zone& aabb = mAreas[i];
+
+		Debug::DrawRectangle(aabb.xMin, aabb.yMin, aabb.xMax - aabb.xMin, aabb.yMax - aabb.yMin, sf::Color::Red);
+	}
 }
 
 
