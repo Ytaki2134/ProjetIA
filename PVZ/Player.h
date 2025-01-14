@@ -8,7 +8,7 @@ class StateMachine;
 class Player : public Entity
 {
 	StateMachine<Player>* mpStateMachine;
-
+	
 	enum State
 	{
 		Idle,
@@ -30,6 +30,7 @@ class Player : public Entity
 public:
 	void SetAreaIndex(int index) { mAreaIndex = index; }
 	const char* GetStateName(State state) const;
+	int GetAreaIndex() const;
 
 	void MakePass();
 	void Move();

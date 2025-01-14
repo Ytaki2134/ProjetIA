@@ -1,111 +1,22 @@
 #include "RugbyScene.h"
 #include "Player.h"
+
 #include "Debug.h"
 
-#define PLAYER_COUNT 5
+
 int RugbyScene::GetClickedArea(int x, int y) const
 {
 	return 0;
 }
-//
-//#include "Plant.h"
-//#include "Zombie.h"
-//#include "Debug.h"
-//
-//
-//void PVZScene::OnInitialize()
-//{
-//	int width = GetWindowWidth();
-//	int height = GetWindowHeight();
-//
-//	float playerRadius = height * 0.075f;
-//
-//	float playerStartY = height / (PLAYER_COUNT * 2.f);
-//	float playerGapY = height / (float)PLAYER_COUNT;
-//
-//	float plantStartX = width * 0.05f;
-//
-//	Plant* pPlants[PLAYER_COUNT];
-//
-//	//for (int i = 0; i < PLAN_COUNT; i++)
-//	//{
-//	//	pPlants[i] = CreateEntity<Plant>(plantRadius, sf::Color::Green);
-//	//	pPlants[i]->SetPosition(plantStartX, plantStartY, 0.f, 0.5f);
-//	//	pPlants[i]->SetAreaIndex(i);
-//
-//	//	int xMin = plantStartX + plantRadius * 3.f;
-//	//	int yMin = plantStartY - plantRadius;
-//	//	int xMax = width;
-//	//	int yMax = plantStartY + plantRadius;
-//
-//	//	mAreas[i] = { xMin, yMin, xMax, yMax };
-//
-//	//	plantStartY += plantGapY;
-//	//}
-//}
-//
-//void PVZScene::OnUpdate()
-//{
-//	for (int i = 0; i < PLAN_COUNT; i++)
-//	{
-//		const AABB& aabb = mAreas[i];
-//
-//		Debug::DrawRectangle(aabb.xMin, aabb.yMin, aabb.xMax - aabb.xMin, aabb.yMax - aabb.yMin, sf::Color::Red);
-//	}
-//}
-//
-//int PVZScene::GetClickedArea(int x, int y) const
-//{
-//	for (int i = 0; i < PLAN_COUNT; i++)
-//	{
-//		const AABB* aabb = &mAreas[i];
-//
-//		if (x >= aabb->xMin && x <= aabb->xMax && y >= aabb->yMin && y <= aabb->yMax)
-//			return i;
-//	}
-//
-//	return -1;
-//}
-//
-//void PVZScene::OnEvent(const sf::Event& event)
-//{
-//	if (event.type != sf::Event::EventType::MouseButtonPressed)
-//		return;
-//
-//	int index = GetClickedArea(event.mouseButton.x, event.mouseButton.y);
-//
-//	if (index == -1)
-//		return;
-//
-//	const AABB* clickedArea = &mAreas[index];
-//
-//	int y = clickedArea->yMin + (clickedArea->yMax - clickedArea->yMin) / 2;
-//
-//	Zombie* pZombie = CreateEntity<Zombie>(25, sf::Color::Red);
-//	pZombie->SetPosition(event.mouseButton.x, y, 0.5f, 0.5f);
-//	pZombie->SetLane(index);
-//
-//	mLaneZombieCount[index]++;
-//}
-//
-//bool PVZScene::IsZombieInArea(int index) const
-//{
-//	_ASSERT(index >= 0 && index < PLAN_COUNT);
-//
-//	return mLaneZombieCount[index] > 0;
-//}
-//
-//void PVZScene::OnDestroyZombie(int lane)
-//{
-//	_ASSERT(lane >= 0 && lane < PLAN_COUNT);
-//	if (mLaneZombieCount[lane] <= 0)
-//		return;
-//
-//	mLaneZombieCount[lane]--;
-//}
-/// <summary>
-/// good code below
-/// </summary>
+
+void RugbyScene::TrySetSelectedEntity(Player* pEntity, int x, int y)
+{
+	if (pEntity->IsInside(x, y) == false)
+		return;
+
+	pEntitySelected = pEntity;
+}
+
 void RugbyScene::OnInitialize()
 {
 
@@ -118,7 +29,7 @@ void RugbyScene::OnInitialize()
 	float playerGapY = height / (float)PLAYER_COUNT;
 
 
-	Player* pPlayer[PLAYER_COUNT * 2];
+
 
 	for (int i = 0; i < PLAYER_COUNT * 2; i++)
 	{
@@ -127,18 +38,18 @@ void RugbyScene::OnInitialize()
 
 			pPlayer[i] = CreateEntity<Player>(playerRadius, sf::Color::Green);
 			pPlayer[i]->SetPosition(plantStartX, playerStartY, 0.f, 0.5f);
-			pPlayer[i]->SetAreaIndex((i ==3)?2:(i<3)?1:3);
+			pPlayer[i]->SetAreaIndex((i ==2)?1:(i<3)?0:2);
 			playerStartY += playerGapY;
 		}
 		else
 		{
-			if(i==5)
+			if(i==PLAYER_COUNT)
 				playerStartY = height / (PLAYER_COUNT * 2.f);
-			float plantStartX =  width * 0.95f;
+			float playerStartX =  width * 0.95f;
 
 			pPlayer[i] = CreateEntity<Player>(playerRadius, sf::Color::Red);
-			pPlayer[i]->SetPosition(plantStartX, playerStartY, 0.f, 0.5f);
-			pPlayer[i]->SetAreaIndex((i == 7) ? 2 : (i < 7) ? 1 : 3);
+			pPlayer[i]->SetPosition(playerStartX, playerStartY, 0.f, 0.5f);
+			pPlayer[i]->SetAreaIndex((i == 7) ?1 : (i < 7) ? 0 : 2);
 			playerStartY += playerGapY;
 		}
 
@@ -158,6 +69,29 @@ void RugbyScene::OnInitialize()
 
 void RugbyScene::OnEvent(const sf::Event& event)
 {
+	if (event.type != sf::Event::EventType::MouseButtonPressed)
+		return;
+
+	if (event.mouseButton.button == sf::Mouse::Button::Right)
+	{
+		for (auto player : pPlayer) {
+			TrySetSelectedEntity(player, event.mouseButton.x, event.mouseButton.y);
+		}
+	}
+
+	if (event.mouseButton.button == sf::Mouse::Button::Left)
+	{
+		if (pEntitySelected != nullptr)
+		{
+			int minY = mAreas[pEntitySelected->GetAreaIndex()].yMin ;
+			int maxY = mAreas[pEntitySelected->GetAreaIndex()].yMax ;
+			int pos_y = event.mouseButton.y;
+			pEntitySelected->GoToPosition(event.mouseButton.x,(pos_y<minY)?minY:(pos_y>maxY)?maxY:pos_y, 100.f);
+		}
+	}
+
+
+
 }
 
 void RugbyScene::OnUpdate()
