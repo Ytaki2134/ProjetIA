@@ -25,6 +25,9 @@
     <Filter Include="Rugby\Player">
       <UniqueIdentifier>{c466c895-c3db-4ff5-9e5e-cd7a8cafae1b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rugby\Ball">
+      <UniqueIdentifier>{1e5879f3-0efe-4a8e-ab8b-eedea7d6e06a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entity.cpp">
@@ -75,6 +78,9 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Rugby\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Ball.cpp">
+      <Filter>Rugby\Ball</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -134,6 +140,9 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Rugby\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Ball.h">
+      <Filter>Rugby\Ball</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
