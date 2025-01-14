@@ -4,7 +4,7 @@
 #include "Zombie.h"
 #include "Debug.h"
 
-#define PLAN_COUNT 3
+#define PLAN_COUNT 5
 
 void PVZScene::OnInitialize()
 {

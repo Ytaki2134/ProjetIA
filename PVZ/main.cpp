@@ -5,6 +5,7 @@
 #include "GameManager.h"
 #include "SampleScene.h"
 #include "PVZScene.h"
+#include "RugbyScene.h"
 
 #include <cstdlib>
 #include <crtdbg.h>

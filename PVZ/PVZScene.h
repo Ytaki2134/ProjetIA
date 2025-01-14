@@ -30,7 +30,7 @@ public:
 		PROJECTILE
 	};
 
-	int mLaneZombieCount[3] = {0, 0, 0};		
+	int mLaneZombieCount[5] = {0, 0, 0,0,0};		
 	AABB mAreas[3];
 
 private:
