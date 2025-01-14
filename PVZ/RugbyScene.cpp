@@ -1,5 +1,6 @@
 #include "RugbyScene.h"
 #include "Player.h"
+#include "Ball.h"
 
 #include "Debug.h"
 
@@ -25,35 +26,29 @@ void RugbyScene::OnInitialize()
 
 	float playerRadius = height * 0.025f;
 
+	float playerStartX = width * 0.05f;
 	float playerStartY = height / (PLAYER_COUNT * 2.f);
 	float playerGapY = height / (float)PLAYER_COUNT;
-
-
-
+	float multiplyx = 0;
 
 	for (int i = 0; i < PLAYER_COUNT * 2; i++)
 	{
 		if (i < PLAYER_COUNT) {
-			float plantStartX = width * 0.05f;
-
 			pPlayer[i] = CreateEntity<Player>(playerRadius, sf::Color::Green);
-			pPlayer[i]->SetPosition(plantStartX, playerStartY, 0.f, 0.5f);
+			pPlayer[i]->SetTag(Tag::TEAM_A);
+			pPlayer[i]->SetPosition(playerStartX * lineX[i], playerStartY * lineY[i], 0.f, 0.5f);
 			pPlayer[i]->SetAreaIndex((i ==2)?1:(i<3)?0:2);
 			playerStartY += playerGapY;
 		}
 		else
 		{
-			if(i==PLAYER_COUNT)
-				playerStartY = height / (PLAYER_COUNT * 2.f);
-			float playerStartX =  width * 0.95f;
-
 			pPlayer[i] = CreateEntity<Player>(playerRadius, sf::Color::Red);
-			pPlayer[i]->SetPosition(playerStartX, playerStartY, 0.f, 0.5f);
+			pPlayer[i]->SetTag(Tag::TEAM_B);
+			pPlayer[i]->SetPosition(width-pPlayer[i-PLAYER_COUNT]->GetPosition().x, pPlayer[i - PLAYER_COUNT]->GetPosition().y, 0.f, 0.5f);
 			pPlayer[i]->SetAreaIndex((i == 7) ?1 : (i < 7) ? 0 : 2);
-			playerStartY += playerGapY;
 		}
-
 	}
+
 	int xMin = 1;
 	int yMin =1;
 	int xMax = width-1;
@@ -64,7 +59,8 @@ void RugbyScene::OnInitialize()
 		yMax += height / 4;
 	}
 	
-
+	mBall=CreateEntity<Ball>(height * 0.02f, sf::Color::Cyan);
+	mBall->SetPosition(width / 2, height / 2, 0.f, 0.5f);
 }
 
 void RugbyScene::OnEvent(const sf::Event& event)

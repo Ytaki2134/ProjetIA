@@ -25,6 +25,9 @@
     <Filter Include="Rugby\RugbyStateMachine">
       <UniqueIdentifier>{0fedb6a7-fc5f-422d-8d81-2b588b0910f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rugby\Ball">
+      <UniqueIdentifier>{1e5879f3-0efe-4a8e-ab8b-eedea7d6e06a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entity.cpp">
@@ -81,6 +84,9 @@
     </ClCompile>
     <ClCompile Include="PlayerAction.cpp">
       <Filter>Rugby\RugbyStateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="Ball.cpp">
+      <Filter>Rugby\Ball</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +152,9 @@
     </ClInclude>
     <ClInclude Include="PlayerAction.h">
       <Filter>Rugby\RugbyStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="Ball.h">
+      <Filter>Rugby\Ball</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
