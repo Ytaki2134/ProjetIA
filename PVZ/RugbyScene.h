@@ -3,7 +3,7 @@
 #include "GameManager.h"
 
 #include <list>
-
+#define PLAYER_COUNT 5
 class Player;
 class Ball;
 
@@ -21,17 +21,20 @@ struct Zone
 class RugbyScene: public Scene
 {
 private:
-
+	Player* pPlayer[PLAYER_COUNT * 2];
+	Player* pEntitySelected;
 	int GetClickedArea(int x, int y) const;
+	void TrySetSelectedEntity(Player* pEntity, int x, int y);
+
+
 public:
 	enum Tag
 	{
-		PLAYER_A,
-		PLAYER_B,
+		TEAM_A,
+		TEAM_B,
 		BALL,
 	};
 
-	int mLaneCount[3] = { 0,0,0 };
 	Zone mAreas[3];
 
 	void OnInitialize() override;

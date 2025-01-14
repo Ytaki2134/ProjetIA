@@ -5,6 +5,11 @@ const char* Player::GetStateName(State state) const
     return nullptr;
 }
 
+int Player::GetAreaIndex() const
+{
+    return mAreaIndex;
+}
+
 void Player::MakePass()
 {
 }
