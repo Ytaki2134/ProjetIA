@@ -1,14 +1,12 @@
 #include "Ball.h"
+#include "Player.h"
 #include "RugbyScene.h"
 #include <iostream>
 
 void Ball::OnInitialize()
 {
+	mPlayer = nullptr;
 	SetTag(RugbyScene::Tag::BALL);
-}
-
-void Ball::OnUpdate()
-{
 	sf::Vector2f position = GetPosition(0.f, 0.f);
 
 	int width = GetScene()->GetWindowWidth();
@@ -20,16 +18,28 @@ void Ball::OnUpdate()
 		Destroy();
 }
 
+void Ball::OnUpdate()
+{
+	if (mPlayer != nullptr) {
+		SetPosition(mPlayer->GetPosition().x, mPlayer->GetPosition().y);
+	}
+}
+
 void Ball::OnCollision(Entity* pCollidedWith)
 {
-	if (pCollidedWith->IsTag(RugbyScene::Tag::TEAM_A))
+	if ((pCollidedWith->IsTag(RugbyScene::Tag::TEAM_A) || pCollidedWith->IsTag(RugbyScene::Tag::TEAM_B))&& pCollidedWith!=mPlayer)
 	{
-		std::cout << "hit" << std::endl;
-		//Destroy();
+		Player* player = dynamic_cast<Player*>(pCollidedWith);
+		if (player != nullptr)
+		{
+			mPlayer=player; // Utilise SetPlayer pour gérer le pointeur
+			mPlayer->SetGetBall(true);
+		}
 	}
-	else if (pCollidedWith->IsTag(RugbyScene::Tag::TEAM_B))
-	{
-		std::cout << "hit" << std::endl;
-		//Destroy();
-	}
+}
+
+void Ball::SetPlayer(Player* player)
+{
+	//mPlayer = player;
+	std::cout << "change" << std::endl;
 }

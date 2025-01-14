@@ -106,6 +106,11 @@ sf::Vector2f Entity::GetPosition(float ratioX, float ratioY) const
 	return position;
 }
 
+sf::Vector2f Entity::GetDirection()
+{
+	return mDirection;
+}
+
 bool Entity::GoToDirection(int x, int y, float speed)
 {
 	sf::Vector2f position = GetPosition(0.5f, 0.5f);
@@ -126,7 +131,7 @@ bool Entity::GoToPosition(int x, int y, float speed)
 		return false;
 
 	sf::Vector2f position = GetPosition(0.5f, 0.5f);
-
+	
 	mTarget.position = { x, y };
 	mTarget.distance = Utils::GetDistance(position.x, position.y, x, y);
 	mTarget.isSet = true;
