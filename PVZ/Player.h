@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+#include "Ball.h"
 
 
 template<typename T>
@@ -17,7 +18,10 @@ class Player : public Entity
 	int mSpeed;
 	int mMaxSpeed = 6;
 
+	Ball* mBall;
+	Player* playerHit;
 	bool mGetBall;
+	bool mTeamGetBall;
 	int mAreaIndex;
 
 public:
@@ -27,10 +31,15 @@ public:
 
 	void MakePass();
 	void Move();
+	void SetGetBall(bool getball);
+	void SetTeamGetBall(bool getball);
+
+
 
 protected:
 	void OnInitialize() override;
 	void OnUpdate() override;
+	void OnCollision(Entity* pCollidedWith) override;
 
 
 

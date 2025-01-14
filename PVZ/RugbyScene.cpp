@@ -59,7 +59,7 @@ void RugbyScene::OnInitialize()
 		yMax += height / 4;
 	}
 	
-	mBall=CreateEntity<Ball>(height * 0.02f, sf::Color::Cyan);
+	mBall=CreateEntity<Ball>(height * 0.015f, sf::Color::Blue);
 	mBall->SetPosition(width / 2, height / 2, 0.f, 0.5f);
 }
 
