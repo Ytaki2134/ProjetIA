@@ -17,7 +17,7 @@ void Player::OnInitialize()
 	mpStateMachine = new StateMachine<Player>(this, State::Count);
 
 	mAreaIndex = -1;
-	mTimeStun =5;
+	mTimeStun = 1;
 	SetRigidBody(true);
 
 	//IDLE
@@ -236,36 +236,37 @@ void Player::SetTeamHasBall(bool getball)
 
 void Player::OnUpdate()
 {
-    if (mStun) {
-        mBeginStun += GetDeltaTime();
-    }
+	if (mStun) {
+		mBeginStun += GetDeltaTime();
+		if (mBeginStun > mTimeStun) {
+			mStun = false;
+			mBeginStun = 0;
+		}
+	}
 }
 
 void Player::OnCollision(Entity* pCollidedWith)
-{    
-    
-    if (!pCollidedWith->IsTag(mTag) && !pCollidedWith->IsTag(RugbyScene::Tag::BALL)) {
-        Player* advPlayer = dynamic_cast<Player*>(pCollidedWith);
-        if (advPlayer!=nullptr && mGetBall && !advPlayer->IsStun())
-        {
+{
+	if (!mStun) {
 
-			mBall->SetPlayer(advPlayer);
-			advPlayer->SetBall(mBall);
-			SetBall(nullptr);
-            if (mStun && (GetDeltaTime() - mBeginStun) > mTimeStun) {
-                mStun = false;
-            }
-            else if (!mStun) {
-                mStun = true;
-                mBeginStun = GetDeltaTime();
-            }
+		if (!pCollidedWith->IsTag(mTag) && !pCollidedWith->IsTag(RugbyScene::Tag::BALL)) {
+			Player* advPlayer = dynamic_cast<Player*>(pCollidedWith);
+			if (advPlayer != nullptr && mHasBall && !advPlayer->IsStun())
+			{
 
-			
+				mBall->SetPlayer(advPlayer);
+				advPlayer->SetBall(mBall);
+				SetBall(nullptr);
+				mStun = true;
+				mBeginStun = GetDeltaTime();
+				
+			}
+		}
+		else if (pCollidedWith->IsTag(RugbyScene::Tag::BALL) && !mHasBall) {
+			mBall = dynamic_cast<Ball*>(pCollidedWith);
+		}
 
-        }
-    }
-    else if (pCollidedWith->IsTag(RugbyScene::Tag::BALL) && !mGetBall) {
-        mBall = dynamic_cast<Ball*>(pCollidedWith);
-    }
+	}
+
 }
 

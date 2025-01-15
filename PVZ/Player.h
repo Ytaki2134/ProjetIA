@@ -45,7 +45,7 @@ public:
 	void SetBall(Ball* ball);
 	void SetHasBall(bool HasBall);
 	void SetTeamHasBall(bool HasBall);
-
+	int getTag() { return mTag; }
 
 
 protected:

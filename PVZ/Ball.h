@@ -13,7 +13,7 @@ protected:
 	void OnUpdate() override;
 	void OnCollision(Entity* pCollidedWith) override;
 public:
-	void SetPlayer(Entity* player);
+	void SetPlayer(Player* player);
 
 };
 

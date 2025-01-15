@@ -23,6 +23,7 @@ void Ball::OnUpdate()
 
 	if (mPlayer != nullptr) {
 		SetPosition(mPlayer->GetPosition().x, mPlayer->GetPosition().y);
+		std::cout << mPlayer->getTag() << std::endl;
 	}
 }
 
@@ -40,7 +41,8 @@ void Ball::OnCollision(Entity* pCollidedWith)
 	}
 }
 
-void Ball::SetPlayer(Entity* player)
+void Ball::SetPlayer(Player* player)
 {
 	mPlayer = player;
+	OnUpdate();
 }
