@@ -95,6 +95,19 @@ void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 	}
 }
 
+void Entity::SetTarget(sf::Vector2f target)
+{
+	mTarget.position = target;
+	float dist = Utils::GetDistance(target.x, GetPosition().x, target.y, GetPosition().y);
+	mTarget.distance = dist;
+	mTarget.isSet = true;
+}
+
+Target* Entity::GetTarget()
+{
+	return &mTarget;
+}
+
 sf::Vector2f Entity::GetPosition(float ratioX, float ratioY) const
 {
 	float size = mShape.getRadius() * 2;
@@ -132,7 +145,7 @@ bool Entity::GoToPosition(int x, int y, float speed)
 
 	sf::Vector2f position = GetPosition(0.5f, 0.5f);
 	
-	mTarget.position = { x, y };
+	mTarget.position = { (float)x, (float)y };
 	mTarget.distance = Utils::GetDistance(position.x, position.y, x, y);
 	mTarget.isSet = true;
 

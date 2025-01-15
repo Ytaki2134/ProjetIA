@@ -60,6 +60,7 @@
     <ClInclude Include="DummyEntity.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="Globals.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="PlantCondition.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>

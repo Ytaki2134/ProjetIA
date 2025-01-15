@@ -46,6 +46,15 @@ void Player::OnInitialize()
 
 			transition->AddCondition<PlayerCondition_FriendHasBall>();
 		}
+
+		//-> RETRIEVE
+		{
+			auto transition = pIdle->CreateTransition(State::Retrieve);
+
+			transition->AddCondition<PlayerCondition_NoBall>(false);
+			transition->AddCondition<PlayerCondition_FriendHasBall>(false);
+			transition->AddCondition<PlayerCondition_FoeHasBall>(false);
+		}
 	}
 
 	//ATTACK
@@ -208,12 +217,6 @@ int Player::GetAreaIndex() const
 	return mAreaIndex;
 }
 
-
-
-void Player::Move()
-{
-}
-
 void Player::SetBall(Ball* ball)
 {
 	mBall = ball;
@@ -234,18 +237,9 @@ void Player::SetScene(RugbyScene* scene)
 	mScene = scene;
 }
 
-void Player::SetTarget(sf::Vector2i target)
-{
-	mTarget.position = target;
-	float dist =Utils::GetDistance(target.x,GetPosition().x, target.y,GetPosition().y );
-	mTarget.distance = dist;
-	mTarget.isSet = true;
-}
-
-
 void Player::DeleteTarget()
 {
-	mTarget.position = sf::Vector2i(-1, -1);
+	mTarget.position = sf::Vector2f(-1, -1);
 	mTarget.distance = -1;
 	mTarget.isSet = false;
 }
@@ -299,6 +293,8 @@ void Player::OnUpdate()
 		GoToPosition(mTarget.position.x, mTarget.position.y, GetSpeed());
 	else
 		DeleteTarget();
+
+	mpStateMachine->Update();
 }
 
 void Player::OnCollision(Entity* pCollidedWith)

@@ -86,7 +86,7 @@ void RugbyScene::OnEvent(const sf::Event& event)
 			int pos_y = event.mouseButton.y;
 			Player* player = dynamic_cast<Player*>(pEntitySelected);
 			//player->GoToPosition(event.mouseButton.x, (pos_y < minY) ? minY : (pos_y > maxY) ? maxY : pos_y, player->GetSpeed());
-			player->SetTarget(sf::Vector2i(event.mouseButton.x, (pos_y < minY) ? minY : (pos_y > maxY) ? maxY : pos_y));
+			player->SetTarget(sf::Vector2f(event.mouseButton.x, (pos_y < minY) ? minY : (pos_y > maxY) ? maxY : pos_y));
 		}
 	}
 }

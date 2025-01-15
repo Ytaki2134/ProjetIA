@@ -30,15 +30,12 @@ class Player : public Entity
 	float mTimeBoost;
 	float mBeginBoost;
 
-
 	Ball* mBall;
 	RugbyScene* mScene;
 	bool mStun;
 	float mTimeStun;
 	float mBeginStun;
 
-
-	
 	bool mHasBall;
 	int mAreaIndex;
 
@@ -47,15 +44,13 @@ public:
 	const char* GetStateName(State state) const;
 	int GetAreaIndex() const;
 
-	void Move();
 	bool IsStun() { return mStun; };
 	void SetBoost(bool boost) { mBoost = boost; };
 	void SetBall(Ball* ball);
 	void SetHasBall(bool HasBall);
 	void SetScene(RugbyScene* scene);
 
-	void SetTarget(sf::Vector2i target);
-	sf::Vector2i GetTarget() {return mTarget.position;};
+	sf::Vector2f GetTargetPosition() {return mTarget.position;};
 	float GetDistanceTarget() {return mTarget.distance;};
 	bool TargetIsSet() { return mTarget.isSet; };
 	void DeleteTarget();
