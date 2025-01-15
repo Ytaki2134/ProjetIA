@@ -1,9 +1,10 @@
 #pragma once
 
 #include "GameManager.h"
+#include "Header.h"
 
 #include <list>
-#define PLAYER_COUNT 5
+
 class Player;
 class Ball;
 
@@ -11,6 +12,8 @@ namespace sf
 {
 	class Event;
 }
+
+
 struct Zone
 {
 	int xMin;

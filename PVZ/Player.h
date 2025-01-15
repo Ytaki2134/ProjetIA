@@ -26,12 +26,10 @@ class Player : public Entity
 	int mMaxSpeed = 6;
 
 	Ball* mBall;
-	Player* playerHit;
 	bool mStun;
 	float mTimeStun;
 	float mBeginStun;
 	bool mHasBall;
-	bool mTeamHasBall;
 	int mAreaIndex;
 
 public:
@@ -44,9 +42,8 @@ public:
 	bool IsStun() { return mStun; }
 	void SetBall(Ball* ball);
 	void SetHasBall(bool HasBall);
-	void SetTeamHasBall(bool HasBall);
-	int getTag() { return mTag; }
-
+	void MakeAPass();
+	int GetTag() { return mTag; }
 
 protected:
 	void OnInitialize() override;

@@ -1,7 +1,7 @@
 #include "Ball.h"
 #include "Player.h"
 #include "RugbyScene.h"
-#include <iostream>
+
 
 void Ball::OnInitialize()
 {
@@ -24,6 +24,9 @@ void Ball::OnUpdate()
 	if (mPlayer != nullptr) {
 		SetPosition(mPlayer->GetPosition().x, mPlayer->GetPosition().y);
 	}
+	else {
+		mWhoHasBall = NOBODY;
+	}
 }
 
 void Ball::OnCollision(Entity* pCollidedWith)
@@ -44,4 +47,5 @@ void Ball::SetPlayer(Player* player)
 {
 	mPlayer = player;
 	OnUpdate();
+	(mPlayer->GetTag() == 0)? mWhoHasBall = TEAM_A  : mWhoHasBall = TEAM_B;
 }

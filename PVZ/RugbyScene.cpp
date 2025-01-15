@@ -3,7 +3,7 @@
 #include "Ball.h"
 
 #include "Debug.h"
-
+#include <iostream>
 
 int RugbyScene::GetClickedArea(int x, int y) const
 {

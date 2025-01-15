@@ -229,10 +229,12 @@ void Player::SetHasBall(bool getball)
 	mHasBall = getball;
 }
 
-void Player::SetTeamHasBall(bool getball)
+
+void Player::MakeAPass()
 {
-	mTeamHasBall = getball;
 }
+
+
 
 void Player::OnUpdate()
 {
