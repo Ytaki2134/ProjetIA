@@ -27,8 +27,8 @@ class Player : public Entity
 
 	Ball* mBall;
 	Player* playerHit;
-	bool mGetBall;
-	bool mTeamGetBall;
+	bool mHasBall;
+	bool mTeamHasBall;
 	int mAreaIndex;
 
 public:
@@ -38,8 +38,9 @@ public:
 
 	void MakePass();
 	void Move();
-	void SetGetBall(bool getball);
-	void SetTeamGetBall(bool getball);
+	void SetBall(Ball* ball);
+	void SetHasBall(bool HasBall);
+	void SetTeamHasBall(bool HasBall);
 
 
 

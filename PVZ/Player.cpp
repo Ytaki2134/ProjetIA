@@ -9,6 +9,7 @@
 #include "PlayerCondition.h"
 
 #include "Debug.h"
+#include <iostream>
 
 void Player::OnInitialize()
 {
@@ -16,7 +17,7 @@ void Player::OnInitialize()
 
 	mAreaIndex = -1;
 
-	//SetTag(RugbyScene::Tag::PLAYER_A);
+	SetRigidBody(true);
 
 	//IDLE
 	{
@@ -196,12 +197,12 @@ void Player::OnInitialize()
 
 const char* Player::GetStateName(State state) const
 {
-    return nullptr;
+	return nullptr;
 }
 
 int Player::GetAreaIndex() const
 {
-    return mAreaIndex;
+	return mAreaIndex;
 }
 
 void Player::MakePass()
@@ -212,20 +213,24 @@ void Player::Move()
 {
 }
 
-void Player::SetGetBall(bool getball)
+void Player::SetBall(Ball* ball)
 {
-    mGetBall = getball;
+	mBall = ball;
+
+	if (ball != nullptr)
+		SetHasBall(true);
+	else
+		SetHasBall(false);
 }
 
-void Player::SetTeamGetBall(bool getball)
+void Player::SetHasBall(bool getball)
 {
-    mTeamGetBall = getball;
+	mHasBall = getball;
 }
 
-
-void Player::OnInitialize()
+void Player::SetTeamHasBall(bool getball)
 {
-    SetRigidBody(true);
+	mTeamHasBall = getball;
 }
 
 void Player::OnUpdate()
@@ -234,14 +239,19 @@ void Player::OnUpdate()
 
 void Player::OnCollision(Entity* pCollidedWith)
 {
-    if (!pCollidedWith->IsTag(mTag) && !pCollidedWith->IsTag(RugbyScene::Tag::BALL)) {
-        Player* advPlayer = dynamic_cast<Player*>(pCollidedWith);
-        if (advPlayer!=nullptr && mGetBall) {
-            SetGetBall(false);
-            GoToPosition(advPlayer->GetDirection().x , advPlayer->GetDirection().x, 10000.f);
-            mBall->SetPlayer(advPlayer);
-            advPlayer->SetGetBall(true);
-        }
-    }
+	if (!pCollidedWith->IsTag(mTag) && !pCollidedWith->IsTag(RugbyScene::Tag::BALL)) {
+		Player* advPlayer = dynamic_cast<Player*>(pCollidedWith);
+		if (advPlayer != nullptr && mHasBall) {
+			//SetRigidBody(false);
+			//SetHasBall(false);
+			//GoToPosition(advPlayer->GetDirection().x , advPlayer->GetDirection().x, 10000.f);
+
+			//Trade places
+			mBall->SetPlayer(advPlayer);
+			advPlayer->SetBall(mBall);
+			SetBall(nullptr);
+			std::cout << "Trading" << std::endl;
+		}
+	}
 }
 

@@ -32,14 +32,13 @@ void Ball::OnCollision(Entity* pCollidedWith)
 		Player* player = dynamic_cast<Player*>(pCollidedWith);
 		if (player != nullptr)
 		{
-			mPlayer=player; // Utilise SetPlayer pour gérer le pointeur
-			mPlayer->SetGetBall(true);
+			SetPlayer(player);
+			mPlayer->SetBall(this);
 		}
 	}
 }
 
 void Ball::SetPlayer(Player* player)
 {
-	//mPlayer = player;
-	std::cout << "change" << std::endl;
+	mPlayer = player;
 }
