@@ -46,7 +46,7 @@ void Player::OnCollision(Entity* pCollidedWith)
         Player* advPlayer = dynamic_cast<Player*>(pCollidedWith);
         if (advPlayer!=nullptr && mGetBall) {
             SetGetBall(false);
-            GoToPosition(advPlayer->GetDirection().x , advPlayer->GetDirection().x, 10000.f);
+//            GoToPosition(advPlayer->GetDirection().x , advPlayer->GetDirection().x, 10000.f);
             mBall->SetPlayer(advPlayer);
             advPlayer->SetGetBall(true);
         }
