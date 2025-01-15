@@ -23,7 +23,6 @@ void Ball::OnUpdate()
 
 	if (mPlayer != nullptr) {
 		SetPosition(mPlayer->GetPosition().x, mPlayer->GetPosition().y);
-		std::cout << mPlayer->getTag() << std::endl;
 	}
 }
 
