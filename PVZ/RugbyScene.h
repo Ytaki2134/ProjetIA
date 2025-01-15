@@ -38,6 +38,7 @@ public:
 		TEAM_A,
 		TEAM_B,
 		BALL,
+		NOBALL
 	};
 
 	float lineX[5] = {0.5f,2,3,2,0.5f};
@@ -48,6 +49,7 @@ public:
 	void OnInitialize() override;
 	void OnEvent(const sf::Event& event) override;
 	void OnUpdate() override;
+	Ball* GetBall();
 
 	//bool IsZombieInArea(int index) const;
 	//void OnDestroyZombie(int lane);

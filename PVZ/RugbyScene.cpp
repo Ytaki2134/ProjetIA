@@ -47,6 +47,7 @@ void RugbyScene::OnInitialize()
 			pPlayer[i]->SetPosition(width-pPlayer[i-PLAYER_COUNT]->GetPosition().x, pPlayer[i - PLAYER_COUNT]->GetPosition().y, 0.f, 0.5f);
 			pPlayer[i]->SetAreaIndex((i == 7) ?1 : (i < 7) ? 0 : 2);
 		}
+		pPlayer[i]->SetScene(this);
 	}
 
 	int xMin = 1;
@@ -86,9 +87,6 @@ void RugbyScene::OnEvent(const sf::Event& event)
 			player->GoToPosition(event.mouseButton.x,(pos_y<minY)?minY:(pos_y>maxY)?maxY:pos_y, player->GetSpeed());
 		}
 	}
-
-
-
 }
 
 void RugbyScene::OnUpdate()
@@ -99,6 +97,11 @@ void RugbyScene::OnUpdate()
 
 		Debug::DrawRectangle(aabb.xMin, aabb.yMin, aabb.xMax - aabb.xMin, aabb.yMax - aabb.yMin, sf::Color::Red);
 	}
+}
+
+Ball* RugbyScene::GetBall()
+{
+	return mBall;
 }
 
 

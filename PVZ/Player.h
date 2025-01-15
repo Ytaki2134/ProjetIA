@@ -1,7 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "Ball.h"
-
+#include "RugbyScene.h"
 
 template<typename T>
 class StateMachine;
@@ -33,6 +33,7 @@ class Player : public Entity
 
 
 	Ball* mBall;
+	RugbyScene* mScene;
 	bool mStun;
 	float mTimeStun;
 	float mBeginStun;
@@ -52,11 +53,14 @@ public:
 	void SetBoost(bool boost) { mBoost = boost; };
 	void SetBall(Ball* ball);
 	void SetHasBall(bool HasBall);
+	void SetScene(RugbyScene* scene);
 	
 	void MakeAPassTo(Player* );
-	int GetTag() { return mTag; }
 
+	int GetTag() { return mTag; }
 	float GetSpeed();
+	Ball* GetBall();
+	RugbyScene* GetScene();
 
 protected:
 	void OnInitialize() override;
@@ -75,7 +79,5 @@ protected:
 	//friend class PlantCondition_FullAmmo;
 	//friend class PlantCondition_NoAmmo;
 	//friend class PlantCondition_ZombieOnLane;
-
-
 };
 

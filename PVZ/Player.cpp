@@ -3,8 +3,6 @@
 #include "RugbyScene.h"
 #include <iostream>
 
-#include "RugbyScene.h"
-
 #include "StateMachine.h"
 #include "PlayerAction.h"
 #include "PlayerCondition.h"
@@ -230,6 +228,11 @@ void Player::SetHasBall(bool getball)
 	mHasBall = getball;
 }
 
+void Player::SetScene(RugbyScene* scene)
+{
+	mScene = scene;
+}
+
 void Player::MakeAPassTo(Player* advPlayer)
 {
 	mBall->SetPlayer(advPlayer);
@@ -248,8 +251,15 @@ float Player::GetSpeed()
 	}
 }
 
+Ball* Player::GetBall()
+{
+	return mBall;
+}
 
-
+RugbyScene* Player::GetScene()
+{
+	return mScene;
+}
 
 void Player::OnUpdate()
 {
