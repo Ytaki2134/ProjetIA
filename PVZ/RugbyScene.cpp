@@ -37,6 +37,7 @@ void RugbyScene::OnInitialize()
 			pPlayer[i] = CreateEntity<Player>(playerRadius, sf::Color::Green);
 			pPlayer[i]->SetTag(Tag::TEAM_A);
 			pPlayer[i]->SetPosition(playerStartX * lineX[i], playerStartY * lineY[i], 0.f, 0.5f);
+			
 			pPlayer[i]->SetAreaIndex((i ==2)?1:(i<3)?0:2);
 			playerStartY += playerGapY;
 		}
@@ -84,7 +85,8 @@ void RugbyScene::OnEvent(const sf::Event& event)
 			int maxY = mAreas[pEntitySelected->GetAreaIndex()].yMax ;
 			int pos_y = event.mouseButton.y;
 			Player* player = dynamic_cast<Player*>(pEntitySelected);
-			player->GoToPosition(event.mouseButton.x,(pos_y<minY)?minY:(pos_y>maxY)?maxY:pos_y, player->GetSpeed());
+			//player->GoToPosition(event.mouseButton.x, (pos_y < minY) ? minY : (pos_y > maxY) ? maxY : pos_y, player->GetSpeed());
+			player->SetTarget(sf::Vector2i(event.mouseButton.x, (pos_y < minY) ? minY : (pos_y > maxY) ? maxY : pos_y));
 		}
 	}
 }

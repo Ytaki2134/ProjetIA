@@ -8,6 +8,7 @@
 #include "PlayerCondition.h"
 
 #include "Debug.h"
+#include "Utils.h"
 #include <iostream>
 
 void Player::OnInitialize()
@@ -236,7 +237,7 @@ void Player::SetScene(RugbyScene* scene)
 void Player::SetTarget(sf::Vector2i target)
 {
 	mTarget.position = target;
-	float dist = (target.x - GetPosition().x) * 2 + (target.y - GetPosition().y) * 2;
+	float dist =Utils::GetDistance(target.x,GetPosition().x, target.y,GetPosition().y );
 	mTarget.distance = dist;
 	mTarget.isSet = true;
 }
@@ -294,6 +295,10 @@ void Player::OnUpdate()
 			mBeginStun = 0;
 		}
 	}
+	if (GetPosition().x != mTarget.position.x && GetPosition().y != mTarget.position.y && mTarget.isSet)
+		GoToPosition(mTarget.position.x, mTarget.position.y, GetSpeed());
+	else
+		DeleteTarget();
 }
 
 void Player::OnCollision(Entity* pCollidedWith)
