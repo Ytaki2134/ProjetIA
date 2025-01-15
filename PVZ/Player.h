@@ -20,6 +20,9 @@ class Player : public Entity
 
 	Ball* mBall;
 	Player* playerHit;
+	bool mStun;
+	float mTimeStun;
+	float mBeginStun;
 	bool mGetBall;
 	bool mTeamGetBall;
 	int mAreaIndex;
@@ -33,7 +36,7 @@ public:
 	void Move();
 	void SetGetBall(bool getball);
 	void SetTeamGetBall(bool getball);
-
+	bool IsStun() { return mStun; }
 
 
 protected:

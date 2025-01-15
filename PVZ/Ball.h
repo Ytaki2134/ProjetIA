@@ -6,14 +6,14 @@ class Player;
 class Ball: public Entity 
 {
 private:
-	Player* mPlayer;
+	Player* mPlayer = nullptr;
 
 protected:
 	void OnInitialize() override;
 	void OnUpdate() override;
 	void OnCollision(Entity* pCollidedWith) override;
 public:
-	void SetPlayer(Player* player);
+	void SetPlayer(Entity* player);
 
 };
 

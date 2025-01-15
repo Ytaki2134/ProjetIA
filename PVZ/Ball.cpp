@@ -20,6 +20,7 @@ void Ball::OnInitialize()
 
 void Ball::OnUpdate()
 {
+
 	if (mPlayer != nullptr) {
 		SetPosition(mPlayer->GetPosition().x, mPlayer->GetPosition().y);
 	}
@@ -27,19 +28,25 @@ void Ball::OnUpdate()
 
 void Ball::OnCollision(Entity* pCollidedWith)
 {
+	
 	if ((pCollidedWith->IsTag(RugbyScene::Tag::TEAM_A) || pCollidedWith->IsTag(RugbyScene::Tag::TEAM_B))&& pCollidedWith!=mPlayer)
 	{
 		Player* player = dynamic_cast<Player*>(pCollidedWith);
 		if (player != nullptr)
 		{
-			mPlayer=player; // Utilise SetPlayer pour gérer le pointeur
-			mPlayer->SetGetBall(true);
+			if (mPlayer != nullptr)
+				mPlayer->SetGetBall(false);
+			mPlayer = player; 
+			if (mPlayer != nullptr)
+				mPlayer->SetGetBall(true);
 		}
 	}
 }
 
-void Ball::SetPlayer(Player* player)
+void Ball::SetPlayer(Entity* player)
 {
-	//mPlayer = player;
-	std::cout << "change" << std::endl;
+	if (mPlayer != nullptr) {
+		mPlayer = dynamic_cast<Player*>(player);
+		SetPosition(mPlayer->GetPosition().x, mPlayer->GetPosition().y);
+	}
 }
