@@ -24,11 +24,21 @@ class Player : public Entity
 
 	int mSpeed;
 	int mMaxSpeed = 6;
+	
+	bool mBoost;
+	float mBoostSpeed;
+	float mTimeBoost;
+	float mBeginBoost;
+
+
 
 	Ball* mBall;
 	bool mStun;
 	float mTimeStun;
 	float mBeginStun;
+
+
+	
 	bool mHasBall;
 	int mAreaIndex;
 
@@ -37,13 +47,16 @@ public:
 	const char* GetStateName(State state) const;
 	int GetAreaIndex() const;
 
-	void MakePass();
 	void Move();
-	bool IsStun() { return mStun; }
+	bool IsStun() { return mStun; };
+	void SetBoost(bool boost) { mBoost = boost; };
 	void SetBall(Ball* ball);
 	void SetHasBall(bool HasBall);
-	void MakeAPass();
+	
+	void MakeAPassTo(Player* );
 	int GetTag() { return mTag; }
+
+	float GetSpeed();
 
 protected:
 	void OnInitialize() override;

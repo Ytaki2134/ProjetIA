@@ -14,12 +14,15 @@
 
 void Player::OnInitialize()
 {
-	mpStateMachine = new StateMachine<Player>(this, State::Count);
-
+	mSpeed = 100;
+	mBoostSpeed = 100;
+	mTimeBoost = 1;
 	mAreaIndex = -1;
 	mTimeStun = 1;
 	SetRigidBody(true);
 
+
+	mpStateMachine = new StateMachine<Player>(this, State::Count);
 	//IDLE
 	{
 		Action<Player>* pIdle = mpStateMachine->CreateAction<PlayerAction_Idle>(State::Idle);
@@ -206,9 +209,7 @@ int Player::GetAreaIndex() const
 	return mAreaIndex;
 }
 
-void Player::MakePass()
-{
-}
+
 
 void Player::Move()
 {
@@ -229,15 +230,37 @@ void Player::SetHasBall(bool getball)
 	mHasBall = getball;
 }
 
-
-void Player::MakeAPass()
+void Player::MakeAPassTo(Player* advPlayer)
 {
+	mBall->SetPlayer(advPlayer);
+	advPlayer->SetBall(mBall);
+	SetBall(nullptr);
 }
+
+float Player::GetSpeed()
+{
+	if (mBoost) {
+		return mSpeed+ mBoostSpeed;
+	}
+	else {
+
+		return mSpeed;
+	}
+}
+
 
 
 
 void Player::OnUpdate()
 {
+	if (mBoost) {
+		mBeginBoost += GetDeltaTime();
+		if (mBeginBoost > mTimeBoost) {
+			mBoost = false;
+			mBeginBoost = 0;
+		}
+	}
+
 	if (mStun) {
 		mBeginStun += GetDeltaTime();
 		if (mBeginStun > mTimeStun) {
@@ -258,6 +281,7 @@ void Player::OnCollision(Entity* pCollidedWith)
 
 				mBall->SetPlayer(advPlayer);
 				advPlayer->SetBall(mBall);
+				advPlayer->SetBoost(true);
 				SetBall(nullptr);
 				mStun = true;
 				mBeginStun = GetDeltaTime();
