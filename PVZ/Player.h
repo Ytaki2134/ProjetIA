@@ -12,7 +12,14 @@ class Player : public Entity
 	
 	enum State
 	{
-	// a faire plus tard
+		Idle,
+		Attack,
+		Pass,
+		Intercept,
+		Follow,
+		Retrieve,
+
+		Count
 	};
 
 	int mSpeed;
@@ -23,8 +30,8 @@ class Player : public Entity
 	bool mStun;
 	float mTimeStun;
 	float mBeginStun;
-	bool mGetBall;
-	bool mTeamGetBall;
+	bool mHasBall;
+	bool mTeamHasBall;
 	int mAreaIndex;
 
 public:
@@ -34,9 +41,11 @@ public:
 
 	void MakePass();
 	void Move();
-	void SetGetBall(bool getball);
-	void SetTeamGetBall(bool getball);
 	bool IsStun() { return mStun; }
+	void SetBall(Ball* ball);
+	void SetHasBall(bool HasBall);
+	void SetTeamHasBall(bool HasBall);
+
 
 
 protected:
@@ -56,9 +65,6 @@ protected:
 	//friend class PlantCondition_FullAmmo;
 	//friend class PlantCondition_NoAmmo;
 	//friend class PlantCondition_ZombieOnLane;
-
-
-
 
 
 };

@@ -34,19 +34,13 @@ void Ball::OnCollision(Entity* pCollidedWith)
 		Player* player = dynamic_cast<Player*>(pCollidedWith);
 		if (player != nullptr)
 		{
-			if (mPlayer != nullptr)
-				mPlayer->SetGetBall(false);
-			mPlayer = player; 
-			if (mPlayer != nullptr)
-				mPlayer->SetGetBall(true);
+			SetPlayer(player);
+			mPlayer->SetBall(this);
 		}
 	}
 }
 
 void Ball::SetPlayer(Entity* player)
 {
-	if (mPlayer != nullptr) {
-		mPlayer = dynamic_cast<Player*>(player);
-		SetPosition(mPlayer->GetPosition().x, mPlayer->GetPosition().y);
-	}
+	mPlayer = player;
 }

@@ -19,11 +19,11 @@
     <Filter Include="Rugby">
       <UniqueIdentifier>{a985332c-8b1d-4ffe-879b-298726ac4fd0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="RefreshFilter">
-      <UniqueIdentifier>{87486edb-66f0-4cce-b6f3-e9a603249f4f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Rugby\Player">
       <UniqueIdentifier>{c466c895-c3db-4ff5-9e5e-cd7a8cafae1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rugby\RugbyStateMachine">
+      <UniqueIdentifier>{0fedb6a7-fc5f-422d-8d81-2b588b0910f2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Rugby\Ball">
       <UniqueIdentifier>{1e5879f3-0efe-4a8e-ab8b-eedea7d6e06a}</UniqueIdentifier>
@@ -78,6 +78,12 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Rugby\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerCondition.cpp">
+      <Filter>Rugby\RugbyStateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAction.cpp">
+      <Filter>Rugby\RugbyStateMachine</Filter>
     </ClCompile>
     <ClCompile Include="Ball.cpp">
       <Filter>Rugby\Ball</Filter>
@@ -140,6 +146,12 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Rugby\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerCondition.h">
+      <Filter>Rugby\RugbyStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAction.h">
+      <Filter>Rugby\RugbyStateMachine</Filter>
     </ClInclude>
     <ClInclude Include="Ball.h">
       <Filter>Rugby\Ball</Filter>
