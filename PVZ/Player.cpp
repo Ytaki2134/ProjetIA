@@ -233,6 +233,22 @@ void Player::SetScene(RugbyScene* scene)
 	mScene = scene;
 }
 
+void Player::SetTarget(sf::Vector2i target)
+{
+	mTarget.position = target;
+	float dist = (target.x - GetPosition().x) * 2 + (target.y - GetPosition().y) * 2;
+	mTarget.distance = dist;
+	mTarget.isSet = true;
+}
+
+
+void Player::DeleteTarget()
+{
+	mTarget.position = sf::Vector2i(-1, -1);
+	mTarget.distance = -1;
+	mTarget.isSet = false;
+}
+
 void Player::MakeAPassTo(Player* advPlayer)
 {
 	mBall->SetPlayer(advPlayer);

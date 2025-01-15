@@ -31,7 +31,6 @@ class Player : public Entity
 	float mBeginBoost;
 
 
-
 	Ball* mBall;
 	RugbyScene* mScene;
 	bool mStun;
@@ -54,7 +53,13 @@ public:
 	void SetBall(Ball* ball);
 	void SetHasBall(bool HasBall);
 	void SetScene(RugbyScene* scene);
-	
+
+	void SetTarget(sf::Vector2i target);
+	sf::Vector2i GetTarget() {return mTarget.position;};
+	float GetDistanceTarget() {return mTarget.distance;};
+	bool TargetIsSet() { return mTarget.isSet; };
+	void DeleteTarget();
+
 	void MakeAPassTo(Player* );
 
 	int GetTag() { return mTag; }
