@@ -124,7 +124,8 @@ void RugbyScene::OnUpdate()
 			}
 		}
 	}
-
+	
+	std::cout << mBall->GetWhoHasBall() << std::endl;
 }
 
 Ball* RugbyScene::GetBall()

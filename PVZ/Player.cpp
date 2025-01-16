@@ -239,14 +239,37 @@ int Player::GetAreaIndex() const
 
 void Player::TryNearestPlayer(Player* player)
 {
-	if (mNearestPlayer != nullptr) {
-		float distactual = Utils::GetDistance(GetPosition().x, GetPosition().y, mNearestPlayer->GetPosition().x, mNearestPlayer->GetPosition().y);
-		float distTest = Utils::GetDistance(GetPosition().x, GetPosition().y, player->GetPosition().x, player->GetPosition().y);
-		if (distTest < distactual)
-			mNearestPlayer = player;
+	bool corectCheck = false;
+	switch (mTag)
+	{
+	case 0:
+		if (player->GetPosition().x < GetPosition().x) {
+			corectCheck = true;
+		}
+		if (mNearestPlayer != nullptr && mNearestPlayer->GetPosition().x > GetPosition().x) {
+			mNearestPlayer = nullptr;
+		}
+		break;
+	case 1:
+		if (player->GetPosition().x > GetPosition().x)
+			corectCheck = true;
+		if (mNearestPlayer != nullptr && mNearestPlayer->GetPosition().x < GetPosition().x)
+			mNearestPlayer = nullptr;
+		break;
+	default:
+		break;
 	}
-	else {
-		mNearestPlayer = player;
+	if (corectCheck) {
+
+		if (mNearestPlayer != nullptr) {
+			float distactual = Utils::GetDistance(GetPosition().x, GetPosition().y, mNearestPlayer->GetPosition().x, mNearestPlayer->GetPosition().y);
+			float distTest = Utils::GetDistance(GetPosition().x, GetPosition().y, player->GetPosition().x, player->GetPosition().y);
+			if (distTest < distactual)
+				mNearestPlayer = player;
+		}
+		else {
+			mNearestPlayer = player;
+		}
 	}
 }
 
@@ -422,6 +445,8 @@ void Player::OnUpdate()
 			mNearestAdvPlayer = nullptr;
 	}
 
+	
+
 	sf::Vector2f position = GetPosition();
 	Debug::DrawText(position.x, position.y, GetStateName((State)mpStateMachine->GetCurrentState()), sf::Color::White);
 
@@ -430,12 +455,12 @@ void Player::OnUpdate()
 
 void Player::OnCollision(Entity* pCollidedWith)
 {
-	if (!mStun) 
+	if (!mStun)
 	{
-		if (!pCollidedWith->IsTag(mTag) && !pCollidedWith->IsTag(RugbyScene::Tag::BALL)) 
+		if (!pCollidedWith->IsTag(mTag) && !pCollidedWith->IsTag(RugbyScene::Tag::BALL))
 		{
 			Player* advPlayer = dynamic_cast<Player*>(pCollidedWith);
-			if (advPlayer != nullptr && mHasBall && !advPlayer->IsStun() && mBall!= nullptr)
+			if (advPlayer != nullptr && mHasBall && !advPlayer->IsStun() && mBall != nullptr)
 			{
 				advPlayer->SetBall(mBall);
 				mBall->SetPlayer(advPlayer);
@@ -445,7 +470,7 @@ void Player::OnCollision(Entity* pCollidedWith)
 				mBeginStun = GetDeltaTime();
 			}
 		}
-		else if (pCollidedWith->IsTag(RugbyScene::Tag::BALL) && !mHasBall) 
+		else if (pCollidedWith->IsTag(RugbyScene::Tag::BALL) && !mHasBall)
 		{
 			mBall = dynamic_cast<Ball*>(pCollidedWith);
 		}
