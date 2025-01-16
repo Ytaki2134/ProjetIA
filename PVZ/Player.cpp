@@ -357,7 +357,8 @@ void Player::MakeAPassTo(Player* advPlayer)
 
 void Player::MakeAPass()
 {
-
+	if (mNearestPlayer == nullptr)
+		return;
 	bool passCorect = false;
 
 	switch (mNearestPlayer->GetTag()) {
@@ -425,7 +426,7 @@ void Player::OnUpdate()
 {
 	if (mBoost) {
 		mBeginBoost += GetDeltaTime();
-		if (mBeginBoost > mTimeBoost) {
+		if (mBeginBoost > mTimeBoost && !mStun) {
 			mBoost = false;
 			mBeginBoost = 0;
 		}
@@ -459,6 +460,7 @@ void Player::OnUpdate()
 
 	sf::Vector2f position = GetPosition();
 	Debug::DrawText(position.x, position.y, GetStateName((State)mpStateMachine->GetCurrentState()), sf::Color::White);
+
 
 	mpStateMachine->Update();
 }

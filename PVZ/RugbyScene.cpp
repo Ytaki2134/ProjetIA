@@ -113,7 +113,7 @@ void RugbyScene::OnEvent(const sf::Event& event)
 		// Vérifier si la touche pressée est la barre d'espace
 		if (event.key.code == sf::Keyboard::Space) {
 			if (mBall->GetPlayerWhoHasBall() != nullptr) {
-				mBall->GetPlayerWhoHasBall()->MakeAPass();
+ 				mBall->GetPlayerWhoHasBall()->MakeAPass();
 			}
 		}
 	}
@@ -147,6 +147,8 @@ void RugbyScene::OnUpdate()
 	int height = GetWindowHeight();
 	Debug::DrawText(width*0.25f, height *0.5f, std::to_string(mPointTeamA), sf::Color::White);
 	Debug::DrawText(width*0.75f, height*0.5f, std::to_string(mPointTeamB), sf::Color::White);
+	Debug::DrawLine(width * 0.15f, 0, width * 0.15f, height, sf::Color::White);
+	Debug::DrawLine(width * 0.85f, 0, width * 0.85f, height, sf::Color::White);
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -164,10 +166,10 @@ void RugbyScene::OnUpdate()
 			}
 		}
 	}
-	if (mBall->GetPosition().x < GetWindowWidth() * 0.15f) {
+	if (mBall->GetPosition().x < GetWindowWidth() * 0.15f && mBall->GetPlayerWhoHasBall()->GetTag() == Tag::TEAM_B) {
 		ReStart(Tag::TEAM_B);
 	}
-	else if (mBall->GetPosition().x > GetWindowWidth()*0.85f) {
+	else if (mBall->GetPosition().x > GetWindowWidth()*0.85f && mBall->GetPlayerWhoHasBall()->GetTag() == Tag::TEAM_A) {
 		ReStart(Tag::TEAM_A);
 	}
 	
