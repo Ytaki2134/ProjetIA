@@ -46,6 +46,15 @@ void Player::OnInitialize()
 
 			transition->AddCondition<PlayerCondition_FriendHasBall>();
 		}
+
+		//-> RETRIEVE
+		{
+			auto transition = pIdle->CreateTransition(State::Retrieve);
+
+			transition->AddCondition<PlayerCondition_NoBall>(false);
+			transition->AddCondition<PlayerCondition_FriendHasBall>(false);
+			transition->AddCondition<PlayerCondition_FoeHasBall>(false);
+		}
 	}
 
 	//ATTACK
@@ -258,7 +267,7 @@ void Player::SetTarget(sf::Vector2i target)
 
 void Player::DeleteTarget()
 {
-	mTarget.position = sf::Vector2i(-1, -1);
+	mTarget.position = sf::Vector2f(-1, -1);
 	mTarget.distance = -1;
 	mTarget.isSet = false;
 }
@@ -336,6 +345,8 @@ void Player::OnUpdate()
 	if (mHasBall) {
 		Debug::DrawLine(GetPosition().x, GetPosition().y, mNearestPlayer->GetPosition().x, mNearestPlayer->GetPosition().y, sf::Color::Cyan);
 	}
+
+	mpStateMachine->Update();
 }
 
 void Player::OnCollision(Entity* pCollidedWith)

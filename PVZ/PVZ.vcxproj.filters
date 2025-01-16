@@ -156,6 +156,10 @@
     <ClInclude Include="Ball.h">
       <Filter>Rugby\Ball</Filter>
     </ClInclude>
+    <ClInclude Include="Header.h" />
+    <ClInclude Include="Globals.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Scene.inl">

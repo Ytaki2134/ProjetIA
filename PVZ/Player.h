@@ -30,7 +30,6 @@ class Player : public Entity
 	float mTimeBoost;
 	float mBeginBoost;
 
-
 	Ball* mBall;
 	RugbyScene* mScene;
 	Player* mNearestPlayer = nullptr;
@@ -38,8 +37,6 @@ class Player : public Entity
 	float mTimeStun;
 	float mBeginStun;
 
-
-	
 	bool mHasBall;
 	int mAreaIndex;
 
@@ -58,8 +55,7 @@ public:
 	void SetHasBall(bool HasBall);
 	void SetScene(RugbyScene* scene);
 
-	void SetTarget(sf::Vector2i target);
-	sf::Vector2i GetTarget() {return mTarget.position;};
+	sf::Vector2f GetTargetPosition() {return mTarget.position;};
 	float GetDistanceTarget() {return mTarget.distance;};
 	bool TargetIsSet() { return mTarget.isSet; };
 	void DeleteTarget();

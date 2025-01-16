@@ -6,15 +6,15 @@
 class PlayerAction_Idle : public Action<Player>
 {
 public:
-	void OnStart(Player* pPlayer) override {}
-	void OnUpdate(Player* pPlayer) override {}
-	void OnEnd(Player* pPlayer) override {}
+	void OnStart(Player* pPlayer) override;
+	void OnUpdate(Player* pPlayer) override {};
+	void OnEnd(Player* pPlayer) override {};
 };
 
 class PlayerAction_Attack : public Action<Player>
 {
 public:
-	void OnStart(Player* pPlayer) override {};
+	void OnStart(Player* pPlayer) override;
 	void OnUpdate(Player* pPlayer) override {};
 	void OnEnd(Player* pPlayer) override {};
 };
@@ -46,7 +46,7 @@ public:
 class PlayerAction_Retrieve : public Action<Player>
 {
 public:
-	void OnStart(Player* pPlayer) override {};
+	void OnStart(Player* pPlayer) override;
 	void OnUpdate(Player* pPlayer) override {};
 	void OnEnd(Player* pPlayer) override {};
 };
