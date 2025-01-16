@@ -18,6 +18,43 @@ void RugbyScene::TrySetSelectedEntity(Player* pEntity, int x, int y)
 	pEntitySelected = pEntity;
 }
 
+void RugbyScene::ReStart(Tag team)
+{
+	// + 1 pour l'quipe 
+	
+
+	//player à leur place de bases;
+	int width = GetWindowWidth();
+	int height = GetWindowHeight();
+
+	playerRadius = height * 0.025f;
+
+	float playerStartX = width * 0.05f;
+	float playerStartY = height / (PLAYER_COUNT * 2.f);
+	float playerGapY = height / (float)PLAYER_COUNT;
+	 for (int i = 0; i < PLAYER_COUNT * 2; i++)
+	{
+		if (i < PLAYER_COUNT) {
+			pPlayer[i]->SetPosition(playerStartX * lineX[i], playerStartY * lineY[i], 0.f, 0.5f);
+			playerStartY += playerGapY;
+		}
+		else
+		{
+			pPlayer[i]->SetPosition(width - pPlayer[i - PLAYER_COUNT]->GetPosition().x, pPlayer[i - PLAYER_COUNT]->GetPosition().y, 0.f, 0.5f);
+		}
+		pPlayer[i]->ReStart();
+	}
+	//balle placer devant le premier joueur
+	 mBall->ReStart();
+	 if (team == Tag::TEAM_B) {
+		 mBall->SetPosition(pPlayer[2]->GetPosition().x + 30, pPlayer[2]->GetPosition().y);
+	 }
+	 else if (team == Tag::TEAM_A) {
+		 mBall->SetPosition(pPlayer[7]->GetPosition().x - 30, pPlayer[7]->GetPosition().y);
+	 }
+
+}
+
 void RugbyScene::OnInitialize()
 {
 
@@ -124,8 +161,14 @@ void RugbyScene::OnUpdate()
 			}
 		}
 	}
+	if (mBall->GetPosition().x < GetWindowWidth() * 0.15f) {
+		ReStart(TEAM_B);
+	}
+	else if (mBall->GetPosition().x > GetWindowWidth()*0.85f) {
+		ReStart(TEAM_A);
+
+	}
 	
-	std::cout << mBall->GetWhoHasBall() << std::endl;
 }
 
 Ball* RugbyScene::GetBall()

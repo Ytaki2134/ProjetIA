@@ -47,7 +47,7 @@ public:
 	float lineY[5] = {1,0.5f,1,1.25f,1};
 
 	Zone mAreas[3];
-	
+	void ReStart(Tag team);
 	void OnInitialize() override;
 	void OnEvent(const sf::Event& event) override;
 	void OnUpdate() override;

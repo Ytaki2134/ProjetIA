@@ -49,3 +49,9 @@ void Ball::SetPlayer(Player* player)
 	(mPlayer->GetTag() == 0)? mWhoHasBall = TEAM_A  : mWhoHasBall = TEAM_B;
 	OnUpdate();
 }
+
+void Ball::ReStart()
+{
+	mPlayer = nullptr;
+	mWhoHasBall = NOBODY;
+}

@@ -409,6 +409,16 @@ RugbyScene* Player::GetScene()
 	return mScene;
 }
 
+void Player::ReStart()
+{
+	mStun = false;
+	mHasBall = false;
+	mBall = nullptr;
+	mNearestPlayer = nullptr;
+	mNearestAdvPlayer = nullptr;
+	mpStateMachine->SetState(State::Idle);
+}
+
 
 
 void Player::OnUpdate()

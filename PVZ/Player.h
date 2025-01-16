@@ -71,6 +71,7 @@ public:
 	Ball* GetBall();
 	RugbyScene* GetScene();
 
+	void ReStart();
 	
 protected:
 	void OnInitialize() override;
