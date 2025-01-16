@@ -46,6 +46,6 @@ void Ball::OnCollision(Entity* pCollidedWith)
 void Ball::SetPlayer(Player* player)
 {
 	mPlayer = player;
-	OnUpdate();
 	(mPlayer->GetTag() == 0)? mWhoHasBall = TEAM_A  : mWhoHasBall = TEAM_B;
+	OnUpdate();
 }

@@ -252,9 +252,6 @@ void Player::TryNearestPlayer(Player* player)
 
 void Player::TryNearestAdvPlayer(Player* player)
 {
-
-
-
 	bool corectCheck = false;
 	switch (mTag)
 	{
@@ -413,6 +410,7 @@ void Player::OnUpdate()
 	else
 		DeleteTarget();
 	if (mHasBall) {
+
 		if (mNearestPlayer != nullptr)
 			Debug::DrawLine(GetPosition().x, GetPosition().y, mNearestPlayer->GetPosition().x, mNearestPlayer->GetPosition().y, sf::Color::Cyan);
 		if (mNearestAdvPlayer != nullptr)

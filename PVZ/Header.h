@@ -3,7 +3,7 @@
 
 
 enum Team {
-	NOBODY,
 	TEAM_A,
-	TEAM_B
+	TEAM_B,
+	NOBODY
 };
