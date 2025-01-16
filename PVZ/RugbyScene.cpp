@@ -108,12 +108,19 @@ void RugbyScene::OnUpdate()
 	}
 	if (mBall->GetPlayerWhoHasBall() != nullptr) {
 		for (auto player : pPlayer) {
+			/*if (player->GetTag() == mBall->GetWhoHasBall()) {
+				player->SetHasBall(true);
+			}
+			else
+			{
+				player->SetHasBall(false);
+			}*/
+
 			if (mBall->GetPlayerWhoHasBall() != player) {
 				if(mBall->GetPlayerWhoHasBall()->GetTag() == player->GetTag())
 					mBall->GetPlayerWhoHasBall()->TryNearestPlayer(player);
 				else
 					mBall->GetPlayerWhoHasBall()->TryNearestAdvPlayer(player);
-
 			}
 		}
 	}

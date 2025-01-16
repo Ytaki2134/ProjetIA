@@ -410,11 +410,16 @@ void Player::OnUpdate()
 	else
 		DeleteTarget();
 	if (mHasBall) {
-
 		if (mNearestPlayer != nullptr)
 			Debug::DrawLine(GetPosition().x, GetPosition().y, mNearestPlayer->GetPosition().x, mNearestPlayer->GetPosition().y, sf::Color::Cyan);
 		if (mNearestAdvPlayer != nullptr)
 			Debug::DrawLine(GetPosition().x, GetPosition().y, mNearestAdvPlayer->GetPosition().x, mNearestAdvPlayer->GetPosition().y, sf::Color::Red);
+	}
+	else {
+		if (mNearestPlayer != nullptr)
+			mNearestPlayer = nullptr;
+		if (mNearestAdvPlayer != nullptr)
+			mNearestAdvPlayer = nullptr;
 	}
 
 	sf::Vector2f position = GetPosition();
@@ -430,10 +435,10 @@ void Player::OnCollision(Entity* pCollidedWith)
 		if (!pCollidedWith->IsTag(mTag) && !pCollidedWith->IsTag(RugbyScene::Tag::BALL)) 
 		{
 			Player* advPlayer = dynamic_cast<Player*>(pCollidedWith);
-			if (advPlayer != nullptr && mHasBall && !advPlayer->IsStun())
+			if (advPlayer != nullptr && mHasBall && !advPlayer->IsStun() && mBall!= nullptr)
 			{
-				mBall->SetPlayer(advPlayer);
 				advPlayer->SetBall(mBall);
+				mBall->SetPlayer(advPlayer);
 				advPlayer->SetBoost(true);
 				SetBall(nullptr);
 				mStun = true;
