@@ -30,6 +30,10 @@ private:
 	Player* pEntitySelected;
 	Ball* mBall;
 
+	int mPointTeamA = 0;
+	int mPointTeamB = 0;
+
+	
 	int GetClickedArea(int x, int y) const;
 	void TrySetSelectedEntity(Player* pEntity, int x, int y);
 

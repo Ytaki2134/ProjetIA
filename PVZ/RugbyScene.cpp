@@ -20,7 +20,12 @@ void RugbyScene::TrySetSelectedEntity(Player* pEntity, int x, int y)
 
 void RugbyScene::ReStart(Tag team)
 {
-	// + 1 pour l'quipe 
+	if (team == Tag::TEAM_A) {
+		mPointTeamA += 1;
+	}
+	if (team == Tag::TEAM_B) {
+		mPointTeamB += 1;
+	}
 	
 
 	//player à leur place de bases;
@@ -138,6 +143,11 @@ void RugbyScene::OnEvent(const sf::Event& event)
 
 void RugbyScene::OnUpdate()
 {
+	int width = GetWindowWidth();
+	int height = GetWindowHeight();
+	Debug::DrawText(width*0.25f, height *0.5f, std::to_string(mPointTeamA), sf::Color::White);
+	Debug::DrawText(width*0.75f, height*0.5f, std::to_string(mPointTeamB), sf::Color::White);
+
 	for (int i = 0; i < 3; i++)
 	{
 		const Zone& aabb = mAreas[i];
@@ -145,13 +155,6 @@ void RugbyScene::OnUpdate()
 	}
 	if (mBall->GetPlayerWhoHasBall() != nullptr) {
 		for (auto player : pPlayer) {
-			/*if (player->GetTag() == mBall->GetWhoHasBall()) {
-				player->SetHasBall(true);
-			}
-			else
-			{
-				player->SetHasBall(false);
-			}*/
 
 			if (mBall->GetPlayerWhoHasBall() != player) {
 				if(mBall->GetPlayerWhoHasBall()->GetTag() == player->GetTag())
@@ -162,11 +165,10 @@ void RugbyScene::OnUpdate()
 		}
 	}
 	if (mBall->GetPosition().x < GetWindowWidth() * 0.15f) {
-		ReStart(TEAM_B);
+		ReStart(Tag::TEAM_B);
 	}
 	else if (mBall->GetPosition().x > GetWindowWidth()*0.85f) {
-		ReStart(TEAM_A);
-
+		ReStart(Tag::TEAM_A);
 	}
 	
 }
