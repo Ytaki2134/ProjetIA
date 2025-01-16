@@ -105,7 +105,7 @@ void Player::OnInitialize()
 
 	//INTERCEPT
 	{
-		Action<Player>* pIntercept = mpStateMachine->CreateAction<PlayerAction_Pass>(State::Intercept);
+		Action<Player>* pIntercept = mpStateMachine->CreateAction<PlayerAction_Intercept>(State::Intercept);
 
 		//->IDLE
 		{
@@ -139,7 +139,7 @@ void Player::OnInitialize()
 
 	//FOLLOW
 	{
-		Action<Player>* pFollow = mpStateMachine->CreateAction<PlayerAction_Pass>(State::Follow);
+		Action<Player>* pFollow = mpStateMachine->CreateAction<PlayerAction_Follow>(State::Follow);
 
 		//->IDLE
 		{
@@ -173,7 +173,7 @@ void Player::OnInitialize()
 
 	//RETRIEVE
 	{
-		Action<Player>* pRetrieve = mpStateMachine->CreateAction<PlayerAction_Pass>(State::Retrieve);
+		Action<Player>* pRetrieve = mpStateMachine->CreateAction<PlayerAction_Retrieve>(State::Retrieve);
 
 		//->IDLE
 		{
@@ -209,7 +209,25 @@ void Player::OnInitialize()
 
 const char* Player::GetStateName(State state) const
 {
-	return nullptr;
+	switch (state)
+	{
+	case Player::Idle:
+		return "Idle";
+	case Player::Attack:
+		return "Attack";
+	case Player::Pass:
+		return "Pass";
+	case Player::Intercept:
+		return "Intercept";
+	case Player::Follow:
+		return "Follow";
+	case Player::Retrieve:
+		return "Retrieve";
+	case Player::Count:
+		return "Count";
+	default:
+		break;
+	};
 }
 
 int Player::GetAreaIndex() const
@@ -294,32 +312,33 @@ void Player::OnUpdate()
 	else
 		DeleteTarget();
 
+	sf::Vector2f position = GetPosition();
+	Debug::DrawText(position.x, position.y, GetStateName((State)mpStateMachine->GetCurrentState()), sf::Color::White);
+
 	mpStateMachine->Update();
 }
 
 void Player::OnCollision(Entity* pCollidedWith)
 {
-	if (!mStun) {
-
-		if (!pCollidedWith->IsTag(mTag) && !pCollidedWith->IsTag(RugbyScene::Tag::BALL)) {
+	if (!mStun) 
+	{
+		if (!pCollidedWith->IsTag(mTag) && !pCollidedWith->IsTag(RugbyScene::Tag::BALL)) 
+		{
 			Player* advPlayer = dynamic_cast<Player*>(pCollidedWith);
 			if (advPlayer != nullptr && mHasBall && !advPlayer->IsStun())
 			{
-
 				mBall->SetPlayer(advPlayer);
 				advPlayer->SetBall(mBall);
 				advPlayer->SetBoost(true);
 				SetBall(nullptr);
 				mStun = true;
 				mBeginStun = GetDeltaTime();
-				
 			}
 		}
-		else if (pCollidedWith->IsTag(RugbyScene::Tag::BALL) && !mHasBall) {
+		else if (pCollidedWith->IsTag(RugbyScene::Tag::BALL) && !mHasBall) 
+		{
 			mBall = dynamic_cast<Ball*>(pCollidedWith);
 		}
-
 	}
-
 }
 

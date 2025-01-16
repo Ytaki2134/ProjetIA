@@ -71,7 +71,7 @@ void Debug::DrawCircle(float x, float y, float radius, const sf::Color& color)
 
 void Debug::DrawText(float x, float y, const std::string& text, const sf::Color& color)
 {
-	DrawText(x, y, text, 0.f, 0.f, color);
+	DrawText(x, y, text, 0.5f, 0.5f, color);
 }
 
 void Debug::DrawText(float x, float y, const std::string& text, float ratioX, float ratioY, const sf::Color& color)
