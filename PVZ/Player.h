@@ -33,6 +33,7 @@ class Player : public Entity
 
 	Ball* mBall;
 	RugbyScene* mScene;
+	Player* mNearestPlayer = nullptr;
 	bool mStun;
 	float mTimeStun;
 	float mBeginStun;
@@ -46,6 +47,9 @@ public:
 	void SetAreaIndex(int index) { mAreaIndex = index; }
 	const char* GetStateName(State state) const;
 	int GetAreaIndex() const;
+
+	Player* GetNearestPlayer() { return mNearestPlayer; };
+	void TryNearestPlayer(Player* player);
 
 	void Move();
 	bool IsStun() { return mStun; };
@@ -61,11 +65,13 @@ public:
 	void DeleteTarget();
 
 	void MakeAPassTo(Player* );
+	void MakeAPass();
 
 	int GetTag() { return mTag; }
 	float GetSpeed();
 	Ball* GetBall();
 	RugbyScene* GetScene();
+
 
 protected:
 	void OnInitialize() override;

@@ -210,6 +210,19 @@ int Player::GetAreaIndex() const
 
 
 
+void Player::TryNearestPlayer(Player* player)
+{
+	if (mNearestPlayer != nullptr) {
+		float distactual = Utils::GetDistance(GetPosition().x, GetPosition().y, mNearestPlayer->GetPosition().x, mNearestPlayer->GetPosition().y);
+		float distTest = Utils::GetDistance(GetPosition().x, GetPosition().y, player->GetPosition().x, player->GetPosition().y);
+		if (distTest < distactual)
+			mNearestPlayer = player;
+	}
+	else {
+		mNearestPlayer = player;
+	}
+}
+
 void Player::Move()
 {
 }
@@ -237,7 +250,7 @@ void Player::SetScene(RugbyScene* scene)
 void Player::SetTarget(sf::Vector2i target)
 {
 	mTarget.position = target;
-	float dist =Utils::GetDistance(target.x,GetPosition().x, target.y,GetPosition().y );
+	float dist = Utils::GetDistance(target.x, GetPosition().x, target.y, GetPosition().y);
 	mTarget.distance = dist;
 	mTarget.isSet = true;
 }
@@ -257,10 +270,31 @@ void Player::MakeAPassTo(Player* advPlayer)
 	SetBall(nullptr);
 }
 
+void Player::MakeAPass()
+{
+	bool passCorect = false;
+	switch (mNearestPlayer->GetTag())
+	{
+	case 0:
+		(mNearestPlayer->GetPosition().x < GetPosition().x) ? passCorect = true : passCorect = false;
+		break;
+	case 1:
+		(mNearestPlayer->GetPosition().x > GetPosition().x) ? passCorect = true : passCorect = false;
+		break;
+	default:
+		break;
+	}
+	if (passCorect) {
+		mBall->SetPlayer(mNearestPlayer);
+		mNearestPlayer->SetBall(mBall);
+		SetBall(nullptr);
+	}
+}
+
 float Player::GetSpeed()
 {
 	if (mBoost) {
-		return mSpeed+ mBoostSpeed;
+		return mSpeed + mBoostSpeed;
 	}
 	else {
 
@@ -299,6 +333,9 @@ void Player::OnUpdate()
 		GoToPosition(mTarget.position.x, mTarget.position.y, GetSpeed());
 	else
 		DeleteTarget();
+	if (mHasBall) {
+		Debug::DrawLine(GetPosition().x, GetPosition().y, mNearestPlayer->GetPosition().x, mNearestPlayer->GetPosition().y, sf::Color::Cyan);
+	}
 }
 
 void Player::OnCollision(Entity* pCollidedWith)
@@ -316,7 +353,7 @@ void Player::OnCollision(Entity* pCollidedWith)
 				SetBall(nullptr);
 				mStun = true;
 				mBeginStun = GetDeltaTime();
-				
+
 			}
 		}
 		else if (pCollidedWith->IsTag(RugbyScene::Tag::BALL) && !mHasBall) {

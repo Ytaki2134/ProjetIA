@@ -16,5 +16,6 @@ protected:
 public:
 	void SetPlayer(Player* player);
 	Team GetWhoHasBall() {return mWhoHasBall;};
+	Player* GetPlayerWhoHasBall() {return mPlayer;};
 };
 

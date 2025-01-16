@@ -67,8 +67,16 @@ void RugbyScene::OnInitialize()
 
 void RugbyScene::OnEvent(const sf::Event& event)
 {
-	if (event.type != sf::Event::EventType::MouseButtonPressed)
-		return;
+	if (event.type == sf::Event::KeyPressed) {
+		// Vérifier si la touche pressée est la barre d'espace
+		if (event.key.code == sf::Keyboard::Space) {
+			if (mBall->GetPlayerWhoHasBall() != nullptr) {
+				mBall->GetPlayerWhoHasBall()->MakeAPass();
+			}
+		}
+	}
+	//if (event.type != sf::Event::EventType::MouseButtonPressed)
+	//	return;
 
 	if (event.mouseButton.button == sf::Mouse::Button::Right)
 	{
@@ -96,9 +104,16 @@ void RugbyScene::OnUpdate()
 	for (int i = 0; i < 3; i++)
 	{
 		const Zone& aabb = mAreas[i];
-
 		Debug::DrawRectangle(aabb.xMin, aabb.yMin, aabb.xMax - aabb.xMin, aabb.yMax - aabb.yMin, sf::Color::Red);
 	}
+	if (mBall->GetPlayerWhoHasBall() != nullptr) {
+		for (auto player : pPlayer) {
+			if (mBall->GetPlayerWhoHasBall() != player && mBall->GetPlayerWhoHasBall()->GetTag() == player->GetTag()) {
+				mBall->GetPlayerWhoHasBall()->TryNearestPlayer(player);
+			}
+		}
+	}
+	
 }
 
 Ball* RugbyScene::GetBall()
