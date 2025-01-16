@@ -232,6 +232,19 @@ void Player::TryNearestPlayer(Player* player)
 	}
 }
 
+void Player::TryNearestAdvPlayer(Player* player)
+{
+	if (mNearestAdvPlayer != nullptr) {
+		float distactual = Utils::GetDistance(GetPosition().x, GetPosition().y, mNearestAdvPlayer->GetPosition().x, mNearestAdvPlayer->GetPosition().y);
+		float distTest = Utils::GetDistance(GetPosition().x, GetPosition().y, player->GetPosition().x, player->GetPosition().y);
+		if (distTest < distactual)
+			mNearestAdvPlayer = player;
+	}
+	else {
+		mNearestAdvPlayer = player;
+	}
+}
+
 void Player::Move()
 {
 }
@@ -282,7 +295,7 @@ void Player::MakeAPassTo(Player* advPlayer)
 void Player::MakeAPass()
 {
 
-	bool passCorect;
+	bool passCorect = false;
 	 
 	switch (mNearestPlayer->GetTag()) {
 	case 0:
@@ -358,6 +371,7 @@ void Player::OnUpdate()
 		DeleteTarget();
 	if (mHasBall) {
 		Debug::DrawLine(GetPosition().x, GetPosition().y, mNearestPlayer->GetPosition().x, mNearestPlayer->GetPosition().y, sf::Color::Cyan);
+		Debug::DrawLine(GetPosition().x, GetPosition().y, mNearestAdvPlayer->GetPosition().x, mNearestAdvPlayer->GetPosition().y, sf::Color::Red);
 	}
 
 	mpStateMachine->Update();

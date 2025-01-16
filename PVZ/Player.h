@@ -33,6 +33,7 @@ class Player : public Entity
 	Ball* mBall;
 	RugbyScene* mScene;
 	Player* mNearestPlayer = nullptr;
+	Player* mNearestAdvPlayer = nullptr;
 	bool mStun;
 	float mTimeStun;
 	float mBeginStun;
@@ -47,6 +48,7 @@ public:
 
 	Player* GetNearestPlayer() { return mNearestPlayer; };
 	void TryNearestPlayer(Player* player);
+	void TryNearestAdvPlayer(Player* player);
 
 	void Move();
 	bool IsStun() { return mStun; };
