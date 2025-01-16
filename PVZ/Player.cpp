@@ -234,14 +234,39 @@ void Player::TryNearestPlayer(Player* player)
 
 void Player::TryNearestAdvPlayer(Player* player)
 {
-	if (mNearestAdvPlayer != nullptr) {
-		float distactual = Utils::GetDistance(GetPosition().x, GetPosition().y, mNearestAdvPlayer->GetPosition().x, mNearestAdvPlayer->GetPosition().y);
-		float distTest = Utils::GetDistance(GetPosition().x, GetPosition().y, player->GetPosition().x, player->GetPosition().y);
-		if (distTest < distactual)
-			mNearestAdvPlayer = player;
+
+
+
+	bool corectCheck = false;
+	switch (mTag)
+	{
+	case 0:
+		if (player->GetPosition().x > GetPosition().x) {
+			corectCheck = true;
+		}
+		if (mNearestAdvPlayer != nullptr && mNearestAdvPlayer->GetPosition().x < GetPosition().x) {
+			mNearestAdvPlayer = nullptr;
+		}
+		break;
+	case 1:
+		if (player->GetPosition().x < GetPosition().x)
+			corectCheck = true;
+		if (mNearestAdvPlayer != nullptr && mNearestAdvPlayer->GetPosition().x > GetPosition().x)
+			mNearestAdvPlayer = nullptr;
+		break;
+	default:
+		break;
 	}
-	else {
-		mNearestAdvPlayer = player;
+	if (corectCheck) {
+		if (mNearestAdvPlayer != nullptr) {
+			float distactual = Utils::GetDistance(GetPosition().x, GetPosition().y, mNearestAdvPlayer->GetPosition().x, mNearestAdvPlayer->GetPosition().y);
+			float distTest = Utils::GetDistance(GetPosition().x, GetPosition().y, player->GetPosition().x, player->GetPosition().y);
+			if (distTest < distactual)
+				mNearestAdvPlayer = player;
+		}
+		else {
+			mNearestAdvPlayer = player;
+		}
 	}
 }
 
@@ -296,7 +321,7 @@ void Player::MakeAPass()
 {
 
 	bool passCorect = false;
-	 
+
 	switch (mNearestPlayer->GetTag()) {
 	case 0:
 		passCorect = mNearestPlayer->GetPosition().x < GetPosition().x;
@@ -370,8 +395,10 @@ void Player::OnUpdate()
 	else
 		DeleteTarget();
 	if (mHasBall) {
-		Debug::DrawLine(GetPosition().x, GetPosition().y, mNearestPlayer->GetPosition().x, mNearestPlayer->GetPosition().y, sf::Color::Cyan);
-		Debug::DrawLine(GetPosition().x, GetPosition().y, mNearestAdvPlayer->GetPosition().x, mNearestAdvPlayer->GetPosition().y, sf::Color::Red);
+		if (mNearestPlayer != nullptr)
+			Debug::DrawLine(GetPosition().x, GetPosition().y, mNearestPlayer->GetPosition().x, mNearestPlayer->GetPosition().y, sf::Color::Cyan);
+		if (mNearestAdvPlayer != nullptr)
+			Debug::DrawLine(GetPosition().x, GetPosition().y, mNearestAdvPlayer->GetPosition().x, mNearestAdvPlayer->GetPosition().y, sf::Color::Red);
 	}
 
 	mpStateMachine->Update();
