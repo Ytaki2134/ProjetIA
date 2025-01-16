@@ -256,7 +256,7 @@ void Player::SetScene(RugbyScene* scene)
 	mScene = scene;
 }
 
-void Player::SetTarget(sf::Vector2i target)
+void Player::SetTarget(sf::Vector2f target)
 {
 	mTarget.position = target;
 	float dist = Utils::GetDistance(target.x, GetPosition().x, target.y, GetPosition().y);
@@ -281,21 +281,33 @@ void Player::MakeAPassTo(Player* advPlayer)
 
 void Player::MakeAPass()
 {
-	bool passCorect = false;
-	switch (mNearestPlayer->GetTag())
-	{
+
+	bool passCorect;
+	 
+	switch (mNearestPlayer->GetTag()) {
 	case 0:
-		(mNearestPlayer->GetPosition().x < GetPosition().x) ? passCorect = true : passCorect = false;
+		passCorect = mNearestPlayer->GetPosition().x < GetPosition().x;
 		break;
 	case 1:
-		(mNearestPlayer->GetPosition().x > GetPosition().x) ? passCorect = true : passCorect = false;
+		passCorect = mNearestPlayer->GetPosition().x > GetPosition().x;
 		break;
 	default:
 		break;
 	}
-	if (passCorect) {
+
+	// Appel à la méthode isPointTouchingPass pour vérifier si un joueur intercepte le pass
+	Player* counter = GetScene()->isPointTouchingPass(GetPosition(), mNearestPlayer->GetPosition(), GetTag());
+
+	if (passCorect && counter == nullptr) {
+		// Le pass est valide, et personne n'intercepte
 		mBall->SetPlayer(mNearestPlayer);
 		mNearestPlayer->SetBall(mBall);
+		SetBall(nullptr);
+	}
+	else if (passCorect && counter != nullptr) {
+		// Le pass est valide, mais il y a un joueur qui intercepte
+		mBall->SetPlayer(counter);
+		counter->SetBall(mBall);
 		SetBall(nullptr);
 	}
 }
@@ -320,6 +332,8 @@ RugbyScene* Player::GetScene()
 {
 	return mScene;
 }
+
+
 
 void Player::OnUpdate()
 {

@@ -24,7 +24,7 @@ void RugbyScene::OnInitialize()
 	int width = GetWindowWidth();
 	int height = GetWindowHeight();
 
-	float playerRadius = height * 0.025f;
+	playerRadius = height * 0.025f;
 
 	float playerStartX = width * 0.05f;
 	float playerStartY = height / (PLAYER_COUNT * 2.f);
@@ -37,31 +37,31 @@ void RugbyScene::OnInitialize()
 			pPlayer[i] = CreateEntity<Player>(playerRadius, sf::Color::Green);
 			pPlayer[i]->SetTag(Tag::TEAM_A);
 			pPlayer[i]->SetPosition(playerStartX * lineX[i], playerStartY * lineY[i], 0.f, 0.5f);
-			
-			pPlayer[i]->SetAreaIndex((i ==2)?1:(i<3)?0:2);
+
+			pPlayer[i]->SetAreaIndex((i == 2) ? 1 : (i < 3) ? 0 : 2);
 			playerStartY += playerGapY;
 		}
 		else
 		{
 			pPlayer[i] = CreateEntity<Player>(playerRadius, sf::Color::Red);
 			pPlayer[i]->SetTag(Tag::TEAM_B);
-			pPlayer[i]->SetPosition(width-pPlayer[i-PLAYER_COUNT]->GetPosition().x, pPlayer[i - PLAYER_COUNT]->GetPosition().y, 0.f, 0.5f);
-			pPlayer[i]->SetAreaIndex((i == 7) ?1 : (i < 7) ? 0 : 2);
+			pPlayer[i]->SetPosition(width - pPlayer[i - PLAYER_COUNT]->GetPosition().x, pPlayer[i - PLAYER_COUNT]->GetPosition().y, 0.f, 0.5f);
+			pPlayer[i]->SetAreaIndex((i == 7) ? 1 : (i < 7) ? 0 : 2);
 		}
 		pPlayer[i]->SetScene(this);
 	}
 
 	int xMin = 1;
-	int yMin =1;
-	int xMax = width-1;
-	int yMax =height/2-1;
+	int yMin = 1;
+	int xMax = width - 1;
+	int yMax = height / 2 - 1;
 	for (int i = 0; i < 3; i++) {
-		mAreas[i] = { xMin, yMin, xMax, yMax  };
+		mAreas[i] = { xMin, yMin, xMax, yMax };
 		yMin += height / 4;
 		yMax += height / 4;
 	}
-	
-	mBall=CreateEntity<Ball>(height * 0.015f, sf::Color::Blue);
+
+	mBall = CreateEntity<Ball>(height * 0.015f, sf::Color::Blue);
 	mBall->SetPosition(width / 2, height / 2, 0.f, 0.5f);
 }
 
@@ -89,8 +89,8 @@ void RugbyScene::OnEvent(const sf::Event& event)
 	{
 		if (pEntitySelected != nullptr)
 		{
-			int minY = mAreas[pEntitySelected->GetAreaIndex()].yMin ;
-			int maxY = mAreas[pEntitySelected->GetAreaIndex()].yMax ;
+			int minY = mAreas[pEntitySelected->GetAreaIndex()].yMin;
+			int maxY = mAreas[pEntitySelected->GetAreaIndex()].yMax;
 			int pos_y = event.mouseButton.y;
 			Player* player = dynamic_cast<Player*>(pEntitySelected);
 			//player->GoToPosition(event.mouseButton.x, (pos_y < minY) ? minY : (pos_y > maxY) ? maxY : pos_y, player->GetSpeed());
@@ -113,7 +113,7 @@ void RugbyScene::OnUpdate()
 			}
 		}
 	}
-	
+
 }
 
 Ball* RugbyScene::GetBall()
@@ -121,5 +121,30 @@ Ball* RugbyScene::GetBall()
 	return mBall;
 }
 
+Player* RugbyScene::isPointTouchingPass(sf::Vector2f a, sf::Vector2f b, int tag) {
+	Player* p = nullptr;
+	sf::Vector2f posp;
+	for (auto player : pPlayer) {
+		if (tag != player->GetTag()) {
 
+			sf::Vector2f ab = b - a;
+			sf::Vector2f ap = player->GetPosition() - a;
 
+			float abLengthSquared = ab.x * ab.x + ab.y * ab.y;
+			float dotProduct = (ap.x * ab.x + ap.y * ab.y) / abLengthSquared;
+
+			if (dotProduct < 0)continue;
+			if (dotProduct > 1)continue;
+
+			sf::Vector2f projection = a + dotProduct * ab;
+			float dx = player->GetPosition().x - projection.x;
+			float dy = player->GetPosition().y - projection.y;
+			float distanceSquared = dx * dx + dy * dy;
+
+			if (distanceSquared <= playerRadius * playerRadius) {
+				p= player;
+			}
+		}
+	}
+	return p;
+}

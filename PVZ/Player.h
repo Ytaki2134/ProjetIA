@@ -55,6 +55,7 @@ public:
 	void SetHasBall(bool HasBall);
 	void SetScene(RugbyScene* scene);
 
+	void SetTarget(sf::Vector2f target);
 	sf::Vector2f GetTargetPosition() {return mTarget.position;};
 	float GetDistanceTarget() {return mTarget.distance;};
 	bool TargetIsSet() { return mTarget.isSet; };
@@ -68,7 +69,7 @@ public:
 	Ball* GetBall();
 	RugbyScene* GetScene();
 
-
+	
 protected:
 	void OnInitialize() override;
 	void OnUpdate() override;

@@ -24,6 +24,8 @@ struct Zone
 class RugbyScene: public Scene
 {
 private:
+	float playerRadius;
+
 	Player* pPlayer[PLAYER_COUNT * 2];
 	Player* pEntitySelected;
 	Ball* mBall;
@@ -50,6 +52,8 @@ public:
 	void OnEvent(const sf::Event& event) override;
 	void OnUpdate() override;
 	Ball* GetBall();
+
+	Player* isPointTouchingPass( sf::Vector2f a, sf::Vector2f b,int tag);
 
 	//bool IsZombieInArea(int index) const;
 	//void OnDestroyZombie(int lane);
