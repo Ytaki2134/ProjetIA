@@ -47,6 +47,7 @@ public:
 	int GetAreaIndex() const;
 
 	Player* GetNearestPlayer() { return mNearestPlayer; };
+	float GetDistanceNearestAdvPlayer();
 	void TryNearestPlayer(Player* player);
 	void TryNearestAdvPlayer(Player* player);
 

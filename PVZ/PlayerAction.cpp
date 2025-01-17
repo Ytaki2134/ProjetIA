@@ -30,6 +30,7 @@ void PlayerAction_Idle::OnStart(Player* pPlayer)
 
 void PlayerAction_Pass::OnStart(Player* pPlayer)
 {
+	pPlayer->MakeAPass();
 }
 
 void PlayerAction_Follow::OnUpdate(Player* pPlayer)

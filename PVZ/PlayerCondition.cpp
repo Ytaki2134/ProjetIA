@@ -31,17 +31,11 @@ bool PlayerCondition_FoeHasBall::OnTest(Player* owner)
 
 bool PlayerCondition_IsStuck::OnTest(Player* owner)
 {
-	//TEAM A
-	if (owner->GetScene()->GetBall()->GetWhoHasBall() == 1)
-	{
-		//CHECK FOR COLLISION ON RIGHT SIDE HERE
+	if (owner->GetBall()) {
+		sf::Vector2f posAdv = owner->GetNearestPlayer()->GetPosition();
+		sf::Vector2f posAdv = owner->GetPosition();
+		if (owner->GetDistanceNearestAdvPlayer() != -1 && owner->GetDistanceNearestAdvPlayer() < owner->GetRadius() * 2)
+			return true;
 	}
-
-	//TEAM B
-	else if (owner->GetScene()->GetBall()->GetWhoHasBall() == 2)
-	{
-		//CHECK FOR COLLISION ON LEFT SIDE HERE
-	}
-
 	return false;
 }

@@ -237,6 +237,14 @@ int Player::GetAreaIndex() const
 
 
 
+float Player::GetDistanceNearestAdvPlayer()
+{
+	float dist = -1;
+	if (mNearestAdvPlayer != nullptr)
+		dist = Utils::GetDistance(GetPosition().x, GetPosition().y ,mNearestAdvPlayer->GetPosition().x, mNearestAdvPlayer->GetPosition().y)
+	return dist;
+}
+
 void Player::TryNearestPlayer(Player* player)
 {
 	bool corectCheck = false;
