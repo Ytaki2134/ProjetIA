@@ -12,7 +12,7 @@ bool PlayerCondition_HasBall::OnTest(Player* owner)
 
 bool PlayerCondition_FriendHasBall::OnTest(Player* owner)
 {
-	if (owner->GetScene()->GetBall()->GetWhoHasBall() == 0)
+	if (owner->GetScene()->GetBall()->GetWhoHasBall() == 2)
 		return false;
 
 	return (owner->GetTag() == owner->GetScene()->GetBall()->GetWhoHasBall());
