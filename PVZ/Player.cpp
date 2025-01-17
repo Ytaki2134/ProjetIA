@@ -14,8 +14,8 @@
 void Player::OnInitialize()
 {
 	mSpeed = 100;
-	mBoostSpeed = 100;
-	mTimeBoost = 1;
+	mBoostSpeed = 75;
+	mTimeBoost = 2;
 	mAreaIndex = -1;
 	mTimeStun = 1;
 	SetRigidBody(true);
@@ -387,42 +387,46 @@ void Player::DeleteTarget()
 
 void Player::MakeAPassTo(Player* advPlayer)
 {
-	mBall->SetPlayer(advPlayer);
-	advPlayer->SetBall(mBall);
-	SetBall(nullptr);
+	if (!IsBoost()) {
+		mBall->SetPlayer(advPlayer);
+		advPlayer->SetBall(mBall);
+		SetBall(nullptr);
+	}
 }
 
 void Player::MakeAPass()
 {
-	if (mNearestPlayer == nullptr)
-		return;
-	bool passCorect = false;
+	if (!IsBoost()) {
+		if (mNearestPlayer == nullptr)
+			return;
+		bool passCorect = false;
 
-	switch (mNearestPlayer->GetTag()) {
-	case 0:
-		passCorect = mNearestPlayer->GetPosition().x < GetPosition().x;
-		break;
-	case 1:
-		passCorect = mNearestPlayer->GetPosition().x > GetPosition().x;
-		break;
-	default:
-		break;
-	}
+		switch (mNearestPlayer->GetTag()) {
+		case 0:
+			passCorect = mNearestPlayer->GetPosition().x < GetPosition().x;
+			break;
+		case 1:
+			passCorect = mNearestPlayer->GetPosition().x > GetPosition().x;
+			break;
+		default:
+			break;
+		}
 
-	// Appel � la m�thode isPointTouchingPass pour v�rifier si un joueur intercepte le pass
-	Player* counter = GetScene()->isPointTouchingPass(GetPosition(), mNearestPlayer->GetPosition(), GetTag());
+		// Appel � la m�thode isPointTouchingPass pour v�rifier si un joueur intercepte le pass
+		Player* counter = GetScene()->isPointTouchingPass(GetPosition(), mNearestPlayer->GetPosition(), GetTag());
 
-	if (passCorect && counter == nullptr) {
-		// Le pass est valide, et personne n'intercepte
-		mBall->SetPlayer(mNearestPlayer);
-		mNearestPlayer->SetBall(mBall);
-		SetBall(nullptr);
-	}
-	else if (passCorect && counter != nullptr) {
-		// Le pass est valide, mais il y a un joueur qui intercepte
-		mBall->SetPlayer(counter);
-		counter->SetBall(mBall);
-		SetBall(nullptr);
+		if (passCorect && counter == nullptr) {
+			// Le pass est valide, et personne n'intercepte
+			mBall->SetPlayer(mNearestPlayer);
+			mNearestPlayer->SetBall(mBall);
+			SetBall(nullptr);
+		}
+		else if (passCorect && counter != nullptr) {
+			// Le pass est valide, mais il y a un joueur qui intercepte
+			mBall->SetPlayer(counter);
+			counter->SetBall(mBall);
+			SetBall(nullptr);
+		}
 	}
 }
 
@@ -461,7 +465,7 @@ void Player::ReStart()
 
 void Player::OnUpdate()
 {
-	
+
 	if (mBoost) {
 		mBeginBoost += GetDeltaTime();
 		if (mBeginBoost > mTimeBoost && !mStun) {
@@ -505,11 +509,11 @@ void Player::OnUpdate()
 	}
 	else {
 		if (mpStateMachine->GetCurrentState() != State::Idle) {
-			 DeleteTarget();
-			 mpStateMachine->SetState(Idle);
+			DeleteTarget();
+			mpStateMachine->SetState(Idle);
 		}
 	}
-	
+
 }
 
 void Player::OnCollision(Entity* pCollidedWith)
