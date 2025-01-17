@@ -74,6 +74,22 @@ void Player::OnInitialize()
 
 			transition->AddCondition<PlayerCondition_IsStuck>();
 		}
+
+		//-> INTERCEPT
+		{
+			auto transition = pAttack->CreateTransition(State::Intercept);
+
+			transition->AddCondition<PlayerCondition_FoeHasBall>();
+		}
+
+		//-> RETRIEVE
+		{
+			auto transition = pAttack->CreateTransition(State::Retrieve);
+
+			transition->AddCondition<PlayerCondition_NoBall>(false);
+			transition->AddCondition<PlayerCondition_FriendHasBall>(false);
+			transition->AddCondition<PlayerCondition_FoeHasBall>(false);
+		}
 	}
 
 	//PASS
