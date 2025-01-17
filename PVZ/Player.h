@@ -57,6 +57,7 @@ public:
 	void SetBoost(bool boost) { mBoost = boost; };
 	void SetBall(Ball* ball);
 	void SetHasBall(bool HasBall);
+	bool GetHasBall() { return mHasBall; };
 	void SetScene(RugbyScene* scene);
 
 	void SetTarget(sf::Vector2f target);
