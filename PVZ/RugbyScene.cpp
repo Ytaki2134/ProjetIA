@@ -146,7 +146,6 @@ void RugbyScene::OnUpdate()
 {
 	int width = GetWindowWidth();
 	int height = GetWindowHeight();
-
 	if (DEBUG_AREA) {
 		for (int i = 0; i < 3; i++)
 		{

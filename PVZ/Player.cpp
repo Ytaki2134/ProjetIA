@@ -30,21 +30,23 @@ void Player::OnInitialize()
 		{
 			auto transition = pIdle->CreateTransition(State::Attack);
 
-			auto condition = transition->AddCondition<PlayerCondition_HasBall>();
+			auto condition = transition->AddCondition<PlayerCondition_HasBall>(true);
 		}
 
 		//-> INTERCEPT
 		{
 			auto transition = pIdle->CreateTransition(State::Intercept);
 
-			transition->AddCondition<PlayerCondition_FoeHasBall>();
+			transition->AddCondition<PlayerCondition_NoBall>(false);
+			transition->AddCondition<PlayerCondition_FriendHasBall>(false);
+			transition->AddCondition<PlayerCondition_FoeHasBall>(true);
 		}
 
 		//-> FOLLOW
 		{
 			auto transition = pIdle->CreateTransition(State::Follow);
 
-			transition->AddCondition<PlayerCondition_FriendHasBall>();
+			transition->AddCondition<PlayerCondition_FriendHasBall>(true);
 		}
 
 		//-> RETRIEVE
@@ -79,7 +81,9 @@ void Player::OnInitialize()
 		{
 			auto transition = pAttack->CreateTransition(State::Intercept);
 
-			transition->AddCondition<PlayerCondition_FoeHasBall>();
+			transition->AddCondition<PlayerCondition_NoBall>(false);
+			transition->AddCondition<PlayerCondition_FriendHasBall>(false);
+			transition->AddCondition<PlayerCondition_FoeHasBall>(true);
 		}
 
 		//-> RETRIEVE
@@ -107,13 +111,16 @@ void Player::OnInitialize()
 		{
 			auto transition = pPass->CreateTransition(State::Intercept);
 
-			transition->AddCondition<PlayerCondition_FoeHasBall>();
+			transition->AddCondition<PlayerCondition_NoBall>(false);
+			transition->AddCondition<PlayerCondition_FriendHasBall>(false);
+			transition->AddCondition<PlayerCondition_FoeHasBall>(true);
 		}
 
 		//-> RETRIEVE
 		{
 			auto transition = pPass->CreateTransition(State::Retrieve);
 
+			transition->AddCondition<PlayerCondition_NoBall>(false);
 			transition->AddCondition <PlayerCondition_FriendHasBall>(false);
 			transition->AddCondition <PlayerCondition_FoeHasBall>(false);
 		}
@@ -127,27 +134,28 @@ void Player::OnInitialize()
 		{
 			auto transition = pIntercept->CreateTransition(State::Idle);
 
-			transition->AddCondition<PlayerCondition_NoBall>();
+			transition->AddCondition<PlayerCondition_NoBall>(true);
 		}
 
 		//->ATTACK
 		{
 			auto transition = pIntercept->CreateTransition(State::Attack);
 
-			transition->AddCondition<PlayerCondition_HasBall>();
+			transition->AddCondition<PlayerCondition_HasBall>(true);
 		}
 
 		//->FOLLOW
 		{
 			auto transition = pIntercept->CreateTransition(State::Follow);
 
-			transition->AddCondition<PlayerCondition_FriendHasBall>();
+			transition->AddCondition<PlayerCondition_FriendHasBall>(true);
 		}
 
 		//->RETRIEVE
 		{
 			auto transition = pIntercept->CreateTransition(State::Retrieve);
 
+			transition->AddCondition<PlayerCondition_NoBall>(false);
 			transition->AddCondition<PlayerCondition_FriendHasBall>(false);
 			transition->AddCondition<PlayerCondition_FoeHasBall>(false);
 		}
@@ -161,27 +169,30 @@ void Player::OnInitialize()
 		{
 			auto transition = pFollow->CreateTransition(State::Idle);
 
-			transition->AddCondition<PlayerCondition_NoBall>();
+			transition->AddCondition<PlayerCondition_NoBall>(true);
 		}
 
 		//->ATTACK
 		{
 			auto transition = pFollow->CreateTransition(State::Attack);
 
-			transition->AddCondition<PlayerCondition_HasBall>();
+			transition->AddCondition<PlayerCondition_HasBall>(true);
 		}
 
 		//->INTERCEPT
 		{
 			auto transition = pFollow->CreateTransition(State::Intercept);
 
-			transition->AddCondition<PlayerCondition_FoeHasBall>();
+			transition->AddCondition<PlayerCondition_NoBall>(false);
+			transition->AddCondition<PlayerCondition_FriendHasBall>(false);
+			transition->AddCondition<PlayerCondition_FoeHasBall>(true);
 		}
 
 		//->RETRIEVE
 		{
 			auto transition = pFollow->CreateTransition(State::Retrieve);
 
+			transition->AddCondition<PlayerCondition_NoBall>(false);
 			transition->AddCondition<PlayerCondition_FriendHasBall>(false);
 			transition->AddCondition<PlayerCondition_FoeHasBall>(false);
 		}
@@ -209,7 +220,9 @@ void Player::OnInitialize()
 		{
 			auto transition = pRetrieve->CreateTransition(State::Intercept);
 
-			transition->AddCondition<PlayerCondition_FoeHasBall>();
+			transition->AddCondition<PlayerCondition_NoBall>(false);
+			transition->AddCondition<PlayerCondition_FriendHasBall>(false);
+			transition->AddCondition<PlayerCondition_FoeHasBall>(true);
 		}
 
 		//->FOLLOW

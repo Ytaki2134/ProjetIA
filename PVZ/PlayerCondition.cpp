@@ -7,10 +7,7 @@ bool PlayerCondition_NoBall::OnTest(Player* owner)
 
 bool PlayerCondition_HasBall::OnTest(Player* owner)
 {
-	if (owner->GetBall() == nullptr)
-		return false;
-	else
-		return true;
+	return owner->GetHasBall();
 }
 
 bool PlayerCondition_FriendHasBall::OnTest(Player* owner)
@@ -23,7 +20,7 @@ bool PlayerCondition_FriendHasBall::OnTest(Player* owner)
 
 bool PlayerCondition_FoeHasBall::OnTest(Player* owner)
 {
-	if (owner->GetScene()->GetBall()->GetWhoHasBall() == 0)
+	if (owner->GetScene()->GetBall()->GetWhoHasBall() == 2)
 		return false;
 
 	return (owner->GetTag() != owner->GetScene()->GetBall()->GetWhoHasBall());
