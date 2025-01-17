@@ -32,8 +32,6 @@ bool PlayerCondition_FoeHasBall::OnTest(Player* owner)
 bool PlayerCondition_IsStuck::OnTest(Player* owner)
 {
 	if (owner->GetBall()) {
-		sf::Vector2f posAdv = owner->GetNearestPlayer()->GetPosition();
-		sf::Vector2f posAdv = owner->GetPosition();
 		if (owner->GetDistanceNearestAdvPlayer() != -1 && owner->GetDistanceNearestAdvPlayer() < owner->GetRadius() * 2)
 			return true;
 	}

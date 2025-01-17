@@ -241,7 +241,7 @@ float Player::GetDistanceNearestAdvPlayer()
 {
 	float dist = -1;
 	if (mNearestAdvPlayer != nullptr)
-		dist = Utils::GetDistance(GetPosition().x, GetPosition().y ,mNearestAdvPlayer->GetPosition().x, mNearestAdvPlayer->GetPosition().y)
+		dist = Utils::GetDistance(GetPosition().x, GetPosition().y, mNearestAdvPlayer->GetPosition().x, mNearestAdvPlayer->GetPosition().y);
 	return dist;
 }
 
