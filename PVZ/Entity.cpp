@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include "Header.h"
 
 #include "GameManager.h"
 #include "Utils.h"
@@ -14,16 +15,16 @@ void Entity::Initialize(float radius, const sf::Color& color)
 	mShape.setOrigin(0.f, 0.f);
 	mShape.setRadius(radius);
 	mShape.setFillColor(color);
-	
+
 	mTarget.isSet = false;
 
 	OnInitialize();
 }
 
-void Entity::Repulse(Entity* other) 
+void Entity::Repulse(Entity* other)
 {
 	sf::Vector2f distance = GetPosition(0.5f, 0.5f) - other->GetPosition(0.5f, 0.5f);
-	
+
 	float sqrLength = (distance.x * distance.x) + (distance.y * distance.y);
 	float length = std::sqrt(sqrLength);
 
@@ -86,7 +87,7 @@ void Entity::SetPosition(float x, float y, float ratioX, float ratioY)
 	mShape.setPosition(x, y);
 
 	//#TODO Optimise
-	if (mTarget.isSet) 
+	if (mTarget.isSet)
 	{
 		sf::Vector2f position = GetPosition(0.5f, 0.5f);
 		mTarget.distance = Utils::GetDistance(position.x, position.y, mTarget.position.x, mTarget.position.y);
@@ -128,7 +129,7 @@ bool Entity::GoToDirection(int x, int y, float speed)
 {
 	sf::Vector2f position = GetPosition(0.5f, 0.5f);
 	sf::Vector2f direction = sf::Vector2f(x - position.x, y - position.y);
-	
+
 	bool success = Utils::Normalize(direction);
 	if (success == false)
 		return false;
@@ -144,7 +145,7 @@ bool Entity::GoToPosition(int x, int y, float speed)
 		return false;
 
 	sf::Vector2f position = GetPosition(0.5f, 0.5f);
-	
+
 	mTarget.position = { (float)x, (float)y };
 	mTarget.distance = Utils::GetDistance(position.x, position.y, x, y);
 	mTarget.isSet = true;
@@ -168,7 +169,7 @@ void Entity::Update()
 	sf::Vector2f translation = distance * mDirection;
 	mShape.move(translation);
 
-	if (mTarget.isSet) 
+	if (mTarget.isSet)
 	{
 		float x1 = GetPosition(0.5f, 0.5f).x;
 		float y1 = GetPosition(0.5f, 0.5f).y;
@@ -176,9 +177,11 @@ void Entity::Update()
 		float x2 = x1 + mDirection.x * mTarget.distance;
 		float y2 = y1 + mDirection.y * mTarget.distance;
 
-		Debug::DrawLine(x1, y1, x2, y2, sf::Color::Cyan);
+		if (DEBUG_TARGET) {
 
-		Debug::DrawCircle(mTarget.position.x, mTarget.position.y, 5.f, sf::Color::Magenta);
+			Debug::DrawLine(x1, y1, x2, y2, sf::Color::Cyan);
+			Debug::DrawCircle(mTarget.position.x, mTarget.position.y, 5.f, sf::Color::Magenta);
+		}
 
 		mTarget.distance -= distance;
 

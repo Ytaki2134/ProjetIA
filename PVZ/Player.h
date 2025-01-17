@@ -52,6 +52,7 @@ public:
 
 	void Move();
 	bool IsStun() { return mStun; };
+	bool IsBoost() { return mBoost; }
 	void SetBoost(bool boost) { mBoost = boost; };
 	void SetBall(Ball* ball);
 	void SetHasBall(bool HasBall);

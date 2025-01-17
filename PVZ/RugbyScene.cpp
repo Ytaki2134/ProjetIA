@@ -26,7 +26,7 @@ void RugbyScene::ReStart(Tag team)
 	if (team == Tag::TEAM_B) {
 		mPointTeamB += 1;
 	}
-	
+
 
 	//player à leur place de bases;
 	int width = GetWindowWidth();
@@ -37,7 +37,7 @@ void RugbyScene::ReStart(Tag team)
 	float playerStartX = width * 0.05f;
 	float playerStartY = height / (PLAYER_COUNT * 2.f);
 	float playerGapY = height / (float)PLAYER_COUNT;
-	 for (int i = 0; i < PLAYER_COUNT * 2; i++)
+	for (int i = 0; i < PLAYER_COUNT * 2; i++)
 	{
 		if (i < PLAYER_COUNT) {
 			pPlayer[i]->SetPosition(playerStartX * lineX[i], playerStartY * lineY[i], 0.f, 0.5f);
@@ -50,13 +50,14 @@ void RugbyScene::ReStart(Tag team)
 		pPlayer[i]->ReStart();
 	}
 	//balle placer devant le premier joueur
-	 mBall->ReStart();
-	 if (team == Tag::TEAM_B) {
-		 mBall->SetPosition(pPlayer[2]->GetPosition().x + 30, pPlayer[2]->GetPosition().y);
-	 }
-	 else if (team == Tag::TEAM_A) {
-		 mBall->SetPosition(pPlayer[7]->GetPosition().x - 30, pPlayer[7]->GetPosition().y);
-	 }
+	int player = std::rand() % 5;
+	mBall->ReStart();
+	if (team == Tag::TEAM_B) {
+		mBall->SetPosition(pPlayer[player]->GetPosition().x + 30, pPlayer[player]->GetPosition().y);
+	}
+	else if (team == Tag::TEAM_A) {
+		mBall->SetPosition(pPlayer[5 + player]->GetPosition().x - 30, pPlayer[5 + player]->GetPosition().y);
+	}
 
 }
 
@@ -113,7 +114,7 @@ void RugbyScene::OnEvent(const sf::Event& event)
 		// Vérifier si la touche pressée est la barre d'espace
 		if (event.key.code == sf::Keyboard::Space) {
 			if (mBall->GetPlayerWhoHasBall() != nullptr) {
- 				mBall->GetPlayerWhoHasBall()->MakeAPass();
+				mBall->GetPlayerWhoHasBall()->MakeAPass();
 			}
 		}
 	}
@@ -145,34 +146,49 @@ void RugbyScene::OnUpdate()
 {
 	int width = GetWindowWidth();
 	int height = GetWindowHeight();
-	Debug::DrawText(width*0.25f, height *0.5f, std::to_string(mPointTeamA), sf::Color::White);
-	Debug::DrawText(width*0.75f, height*0.5f, std::to_string(mPointTeamB), sf::Color::White);
-	Debug::DrawLine(width * 0.15f, 0, width * 0.15f, height, sf::Color::White);
-	Debug::DrawLine(width * 0.85f, 0, width * 0.85f, height, sf::Color::White);
 
-	for (int i = 0; i < 3; i++)
-	{
-		const Zone& aabb = mAreas[i];
-		Debug::DrawRectangle(aabb.xMin, aabb.yMin, aabb.xMax - aabb.xMin, aabb.yMax - aabb.yMin, sf::Color::Red);
+	if (DEBUG_AREA) {
+		for (int i = 0; i < 3; i++)
+		{
+			const Zone& aabb = mAreas[i];
+			Debug::DrawRectangle(aabb.xMin, aabb.yMin, aabb.xMax - aabb.xMin, aabb.yMax - aabb.yMin, sf::Color::Red);
+		}
 	}
 	if (mBall->GetPlayerWhoHasBall() != nullptr) {
 		for (auto player : pPlayer) {
 
 			if (mBall->GetPlayerWhoHasBall() != player) {
-				if(mBall->GetPlayerWhoHasBall()->GetTag() == player->GetTag())
+				if (mBall->GetPlayerWhoHasBall()->GetTag() == player->GetTag())
 					mBall->GetPlayerWhoHasBall()->TryNearestPlayer(player);
 				else
 					mBall->GetPlayerWhoHasBall()->TryNearestAdvPlayer(player);
 			}
 		}
 	}
-	if (mBall->GetPosition().x < GetWindowWidth() * 0.15f && mBall->GetPlayerWhoHasBall()->GetTag() == Tag::TEAM_B) {
-		ReStart(Tag::TEAM_B);
+	if (mBall->GetPlayerWhoHasBall() != nullptr) {
+		for (auto player : pPlayer) {
+			if (mBall->GetPlayerWhoHasBall()->GetTag() == player->GetTag() && DEBUG_PASS) {
+				if (mBall->GetPlayerWhoHasBall()->GetNearestPlayer() == player)
+					Debug::DrawLine(mBall->GetPlayerWhoHasBall()->GetPosition().x, mBall->GetPlayerWhoHasBall()->GetPosition().y, player->GetPosition().x, player->GetPosition().y, sf::Color::Cyan);
+				else
+					Debug::DrawLine(mBall->GetPlayerWhoHasBall()->GetPosition().x, mBall->GetPlayerWhoHasBall()->GetPosition().y, player->GetPosition().x, player->GetPosition().y, sf::Color::Yellow);
+			}
+		}
+		if (mBall->GetPosition().x < GetWindowWidth() * 0.10f && mBall->GetPlayerWhoHasBall()->GetTag() == Tag::TEAM_B) {
+			ReStart(Tag::TEAM_B);
+		}
+		else if (mBall->GetPosition().x > GetWindowWidth() * 0.90f && mBall->GetPlayerWhoHasBall()->GetTag() == Tag::TEAM_A) {
+			ReStart(Tag::TEAM_A);
+		}
 	}
-	else if (mBall->GetPosition().x > GetWindowWidth()*0.85f && mBall->GetPlayerWhoHasBall()->GetTag() == Tag::TEAM_A) {
-		ReStart(Tag::TEAM_A);
-	}
-	
+
+	Debug::DrawText(width * 0.25f, height * 0.5f, std::to_string(mPointTeamA), sf::Color::White);
+	Debug::DrawText(width * 0.75f, height * 0.5f, std::to_string(mPointTeamB), sf::Color::White);
+	Debug::DrawLine(width * 0.10f, 0, width * 0.10f, height, sf::Color::White);
+	Debug::DrawLine(width * 0.90f, 0, width * 0.90f, height, sf::Color::White);
+
+
+
 }
 
 Ball* RugbyScene::GetBall()
@@ -201,7 +217,7 @@ Player* RugbyScene::isPointTouchingPass(sf::Vector2f a, sf::Vector2f b, int tag)
 			float distanceSquared = dx * dx + dy * dy;
 
 			if (distanceSquared <= playerRadius * playerRadius) {
-				p= player;
+				p = player;
 			}
 		}
 	}
