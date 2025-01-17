@@ -32,7 +32,7 @@ bool PlayerCondition_FoeHasBall::OnTest(Player* owner)
 bool PlayerCondition_IsStuck::OnTest(Player* owner)
 {
 	if (owner->GetBall()) {
-		if (owner->GetDistanceNearestAdvPlayer() != -1 && owner->GetDistanceNearestAdvPlayer() < owner->GetRadius() * 2)
+		if (owner->GetDistanceNearestAdvPlayer() != -1 && owner->GetDistanceNearestAdvPlayer() < owner->GetRadius() * 3)
 			return true;
 	}
 	return false;
