@@ -48,9 +48,9 @@ void PlayerAction_Follow::OnUpdate(Player* pPlayer)
 			
 			sf::Vector2f leftUp(pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().x + 50, pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().y - 100);
 			sf::Vector2f leftDown(pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().x + 50, pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().y + 100);
-			sf::Vector2f Front(pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().x + 50, pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().y);
+			sf::Vector2f Front(pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().x + 50, pPlayer->GetPosition().y);
 
-			if (Utils::GetDistance(playerPos.x, playerPos.y, leftUp.x, leftUp.y) < Utils::GetDistance(playerPos.x, playerPos.y, leftDown.x, leftDown.y) && leftUp.y < playerZone.yMin)
+			if (Utils::GetDistance(playerPos.x, playerPos.y, leftUp.x, leftUp.y) < Utils::GetDistance(playerPos.x, playerPos.y, leftDown.x, leftDown.y) && leftUp.y > playerZone.yMin)
 				pPlayer->SetTarget(leftUp);
 			else if (leftDown.y > playerZone.yMax)
 				pPlayer->SetTarget(leftDown);
@@ -60,9 +60,9 @@ void PlayerAction_Follow::OnUpdate(Player* pPlayer)
 		else {
 			sf::Vector2f leftUp(pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().x - 50, pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().y - 100);
 			sf::Vector2f leftDown(pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().x - 50, pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().y + 100);
-			sf::Vector2f Back(pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().x - 50, pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().y );
+			sf::Vector2f Back(pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().x - 50, pPlayer->GetPosition().y );
 
-			if (Utils::GetDistance(playerPos.x, playerPos.y, leftUp.x, leftUp.y) < Utils::GetDistance(playerPos.x, playerPos.y, leftDown.x, leftDown.y) && leftUp.y < playerZone.yMin)
+			if (Utils::GetDistance(playerPos.x, playerPos.y, leftUp.x, leftUp.y) < Utils::GetDistance(playerPos.x, playerPos.y, leftDown.x, leftDown.y) && leftUp.y > playerZone.yMin)
 				pPlayer->SetTarget(leftUp);
 			else if(leftDown.y > playerZone.yMax)
 				pPlayer->SetTarget(leftDown);
@@ -81,9 +81,9 @@ void PlayerAction_Follow::OnUpdate(Player* pPlayer)
 		{
 			sf::Vector2f rightUp(pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().x - 50, pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().y - 100);
 			sf::Vector2f rightDown(pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().x - 50, pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().y + 100);
-			sf::Vector2f Front(pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().x - 50, pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().y);
+			sf::Vector2f Front(pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().x - 50, pPlayer->GetPosition().y);
 
-			if (Utils::GetDistance(playerPos.x, playerPos.y, rightUp.x, rightUp.y) < Utils::GetDistance(playerPos.x, playerPos.y, rightDown.x, rightDown.y) && rightUp.y < playerZone.yMin)
+			if (Utils::GetDistance(playerPos.x, playerPos.y, rightUp.x, rightUp.y) < Utils::GetDistance(playerPos.x, playerPos.y, rightDown.x, rightDown.y) && rightUp.y > playerZone.yMin)
 				pPlayer->SetTarget(rightUp);
 			else if (rightDown.y> playerZone.yMax)
 				pPlayer->SetTarget(rightDown);
@@ -93,9 +93,9 @@ void PlayerAction_Follow::OnUpdate(Player* pPlayer)
 		else {
 			sf::Vector2f rightUp(pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().x + 50, pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().y - 100);
 			sf::Vector2f rightDown(pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().x + 50, pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().y + 100);
-			sf::Vector2f Back(pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().x + 50, pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().y);
+			sf::Vector2f Back(pPlayer->GetScene()->GetBall()->GetPlayerWhoHasBall()->GetPosition().x + 50, pPlayer->GetPosition().y);
 
-			if (Utils::GetDistance(playerPos.x, playerPos.y, rightUp.x, rightUp.y) < Utils::GetDistance(playerPos.x, playerPos.y, rightDown.x, rightDown.y) && rightUp.y < playerZone.yMin)
+			if (Utils::GetDistance(playerPos.x, playerPos.y, rightUp.x, rightUp.y) < Utils::GetDistance(playerPos.x, playerPos.y, rightDown.x, rightDown.y) && rightUp.y > playerZone.yMin)
 				pPlayer->SetTarget(rightUp);
 			else if(rightDown.y > playerZone.yMax)
 				pPlayer->SetTarget(rightDown);
@@ -104,7 +104,7 @@ void PlayerAction_Follow::OnUpdate(Player* pPlayer)
 		}
 		
 	}
-	std::cout << pPlayer->GetTag() << ":  " << pPlayer->GetTarget()->position.x << " ,"<< pPlayer->GetTarget()->position.y << std::endl;
+	
 }
 
 void PlayerAction_Retrieve::OnUpdate(Player* pPlayer)
