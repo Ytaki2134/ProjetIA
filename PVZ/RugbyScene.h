@@ -32,7 +32,7 @@ private:
 
 	int mPointTeamA = 0;
 	int mPointTeamB = 0;
-
+	bool pause = false;
 	
 	int GetClickedArea(int x, int y) const;
 	void TrySetSelectedEntity(Player* pEntity, int x, int y);
@@ -58,7 +58,7 @@ public:
 	Ball* GetBall();
 
 	Player* isPointTouchingPass( sf::Vector2f a, sf::Vector2f b,int tag);
-
+	bool GetPause() { return pause; };
 	//bool IsZombieInArea(int index) const;
 	//void OnDestroyZombie(int lane);
 };

@@ -461,6 +461,7 @@ void Player::ReStart()
 
 void Player::OnUpdate()
 {
+	
 	if (mBoost) {
 		mBeginBoost += GetDeltaTime();
 		if (mBeginBoost > mTimeBoost && !mStun) {
@@ -476,6 +477,7 @@ void Player::OnUpdate()
 			mBeginStun = 0;
 		}
 	}
+
 	if (GetPosition().x != mTarget.position.x && GetPosition().y != mTarget.position.y && mTarget.isSet)
 		GoToPosition(mTarget.position.x, mTarget.position.y, GetSpeed());
 	else
@@ -497,8 +499,17 @@ void Player::OnUpdate()
 		Debug::DrawText(position.x, position.y, GetStateName((State)mpStateMachine->GetCurrentState()), sf::Color::White);
 	}
 
+	if (!GetScene()->GetPause()) {
 
-	mpStateMachine->Update();
+		mpStateMachine->Update();
+	}
+	else {
+		if (mpStateMachine->GetCurrentState() != State::Idle) {
+			 DeleteTarget();
+			 mpStateMachine->SetState(Idle);
+		}
+	}
+	
 }
 
 void Player::OnCollision(Entity* pCollidedWith)

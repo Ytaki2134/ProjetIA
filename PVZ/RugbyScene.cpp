@@ -117,6 +117,9 @@ void RugbyScene::OnEvent(const sf::Event& event)
 				mBall->GetPlayerWhoHasBall()->MakeAPass();
 			}
 		}
+		if (event.key.code == sf::Keyboard::P) {
+			pause = !pause;
+		}
 	}
 	//if (event.type != sf::Event::EventType::MouseButtonPressed)
 	//	return;
